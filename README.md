@@ -1,6 +1,10 @@
 Puree
 ========
 
+[![Version](https://img.shields.io/cocoapods/v/Puree.svg?style=flat)](http://cocoadocs.org/docsets/Puree)
+[![License](https://img.shields.io/cocoapods/l/Puree.svg?style=flat)](http://cocoadocs.org/docsets/Puree)
+[![Platform](https://img.shields.io/cocoapods/p/Puree.svg?style=flat)](http://cocoadocs.org/docsets/Puree)
+
 ## Description
 
 Puree is a log collector which provides some features like below
