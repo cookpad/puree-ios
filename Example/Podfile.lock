@@ -4,8 +4,10 @@ PODS:
   - CocoaLumberjack/Core (1.9.2)
   - CocoaLumberjack/Extensions (1.9.2):
     - CocoaLumberjack/Core
+  - Nimble (2.0.0-rc.3)
   - Puree (1.0.0):
     - YapDatabase (~> 2.5.4)
+  - Quick (0.6.0)
   - YapDatabase (2.5.4):
     - YapDatabase/standard (= 2.5.4)
   - YapDatabase/common (2.5.4):
@@ -14,15 +16,19 @@ PODS:
     - YapDatabase/common
 
 DEPENDENCIES:
+  - Nimble (= 2.0.0-rc.3)
   - Puree (from `../`)
+  - Quick (~> 0.6.0)
 
 EXTERNAL SOURCES:
   Puree:
-    :path: ../
+    :path: "../"
 
 SPEC CHECKSUMS:
-  CocoaLumberjack: 205769c032b5fef85b92472046bcc8b7e7c8a817
-  Puree: e4f2adb9fed2f87b4d1cab4dccc9d68c7cc2b049
-  YapDatabase: c1d6912df1b4a160f7373ee7657d360e29bb00fd
+  CocoaLumberjack: 628fca2e88ef06f7cf6817309aa405f325d9a6fa
+  Nimble: 9dff98ee195ffe7351d3b2fb01d3a1420fd97948
+  Puree: e92ae29f9e7d48a308b5261a318d0564c383431e
+  Quick: 563686dbcf0ae0f9f7401ac9cd2d786ee1b7f3d7
+  YapDatabase: 52370b36f692e23c41c86e60f3bbf81b1c8ae44a
 
-COCOAPODS: 0.35.0
+COCOAPODS: 0.38.2

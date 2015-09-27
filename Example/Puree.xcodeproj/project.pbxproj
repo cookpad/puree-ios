@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		441E98BE00D36EB481704561 /* libPods-Puree.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B91FA661F6EE698F9A2B1BF /* libPods-Puree.a */; };
 		6003F5B1195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
 		6003F5B2195388D20070C39A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
 		6003F5BA195388D20070C39A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6003F5B8195388D20070C39A /* InfoPlist.strings */; };
@@ -21,6 +20,7 @@
 		7F07EE6B1A382CF7003D9944 /* PURTestOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F07EE6A1A382CF7003D9944 /* PURTestOutput.swift */; };
 		7F99BCEE19E3F08500FE37F2 /* PURLogStoreSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F99BCED19E3F08500FE37F2 /* PURLogStoreSpec.swift */; };
 		7FEA6A2619E68B97000EFE9C /* PURLoggerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FEA6A2519E68B97000EFE9C /* PURLoggerSpec.swift */; };
+		E2E3A80C4169545C28A3AD7A /* Pods_Puree.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CB2EDB0C8B08D0F16D6CD8B /* Pods_Puree.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -83,7 +83,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0B91FA661F6EE698F9A2B1BF /* libPods-Puree.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Puree.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02199567B505DD66CAAACC /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		6003F58D195388D20070C39A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6003F58F195388D20070C39A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -93,6 +92,7 @@
 		6003F5B7195388D20070C39A /* Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Tests-Info.plist"; sourceTree = "<group>"; };
 		6003F5B9195388D20070C39A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		6412CE7C1B65D0BBA34A4332 /* Puree.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = Puree.podspec; path = ../Puree.podspec; sourceTree = "<group>"; };
+		7CB2EDB0C8B08D0F16D6CD8B /* Pods_Puree.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Puree.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7F07EE341A38287A003D9944 /* Nimble.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Nimble.xcodeproj; path = Vendor/Nimble/Nimble.xcodeproj; sourceTree = SOURCE_ROOT; };
 		7F07EE431A382883003D9944 /* Quick.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Quick.xcodeproj; path = Vendor/Quick/Quick.xcodeproj; sourceTree = SOURCE_ROOT; };
 		7F07EE601A382B42003D9944 /* PURTestFailureOutput.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PURTestFailureOutput.swift; sourceTree = "<group>"; };
@@ -117,7 +117,7 @@
 				7F07EE5D1A38297F003D9944 /* Quick.framework in Frameworks */,
 				6003F5B2195388D20070C39A /* UIKit.framework in Frameworks */,
 				6003F5B1195388D20070C39A /* Foundation.framework in Frameworks */,
-				441E98BE00D36EB481704561 /* libPods-Puree.a in Frameworks */,
+				E2E3A80C4169545C28A3AD7A /* Pods_Puree.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -150,7 +150,7 @@
 				6003F58F195388D20070C39A /* CoreGraphics.framework */,
 				6003F591195388D20070C39A /* UIKit.framework */,
 				6003F5AF195388D20070C39A /* XCTest.framework */,
-				0B91FA661F6EE698F9A2B1BF /* libPods-Puree.a */,
+				7CB2EDB0C8B08D0F16D6CD8B /* Pods_Puree.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -243,6 +243,7 @@
 				6003F5AB195388D20070C39A /* Frameworks */,
 				6003F5AC195388D20070C39A /* Resources */,
 				2F17DB2073DD44A5180745B8 /* Copy Pods Resources */,
+				65EA4D5AEF8570342231F013 /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -382,6 +383,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Puree/Pods-Puree-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		65EA4D5AEF8570342231F013 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Puree/Pods-Puree-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		A141C2D59F7F4CD787132431 /* Check Pods Manifest.lock */ = {
