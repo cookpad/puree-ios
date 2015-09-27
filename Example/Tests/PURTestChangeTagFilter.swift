@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Puree
 
 class PURTestChangeTagFilter : PURFilter {
     var tagSuffix: String!
@@ -17,6 +18,6 @@ class PURTestChangeTagFilter : PURFilter {
     override func logsWithObject(object: AnyObject!, tag: String!, captured: String!) -> [AnyObject]! {
         let newTag = tag + tagSuffix
 
-        return [PURLog(tag: newTag, date: NSDate(), userInfo: object as NSDictionary)]
+        return [PURLog(tag: newTag, date: NSDate(), userInfo: object as! [NSObject : AnyObject])]
     }
 }

@@ -2,6 +2,6 @@
 //  Use this file to import your target's public headers that you would like to expose to Swift.
 //
 
-#import <DDLog.h>
-#import <DDTTYLogger.h>
-#import <Puree.h>
+#import <CocoaLumberjack/DDLog.h>
+#import <CocoaLumberjack/DDTTYLogger.h>
+#import <Puree/Puree.h>
