@@ -19,7 +19,7 @@ class PURTestFailureOutput : PURBufferedOutput {
 
     override func writeChunk(chunk: PURBufferedOutputChunk!, completion: ((Bool) -> Void)!) {
         self.logStorage?.addLog("error");
-        println("\(NSDate()): error!(retry debug)")
+        print("\(NSDate()): error!(retry debug)")
         completion(false)
     }
 }

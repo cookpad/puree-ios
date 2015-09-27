@@ -19,7 +19,7 @@ class PURTestBufferedOutput : PURBufferedOutput {
 
     override func writeChunk(chunk: PURBufferedOutputChunk!, completion: ((Bool) -> Void)!) {
         let logs = chunk.logs as [PURLog]
-        let logString = reduce(logs as [PURLog], "") { (result, log) -> String in
+        let logString = (logs as [PURLog]).reduce("") { (result, log) -> String in
             let record = join("_", map(log.userInfo) { (key, value) in "\(key)=\(value)" })
             return result + "\(log.tag)-\(record)/"
         }

@@ -16,6 +16,6 @@ class TestLogStorage {
     }
 
     func toString() -> String {
-        return join(", ", storage)
+        return storage.joinWithSeparator(", ")
     }
 }

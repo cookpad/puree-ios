@@ -18,7 +18,7 @@ class PURTestOutput : PUROutput {
     }
 
     override func emitLog(log: PURLog!) {
-        let record = join("_", map(log.userInfo) { (key, value) in "\(key)=\(value)" })
+        let record = map(log.userInfo) { (key, value) in "\(key)=\(value)" }.joinWithSeparator("_")
         self.logStorage?.addLog("\(log.tag)-\(record)")
     }
 }
