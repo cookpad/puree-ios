@@ -1,5 +1,7 @@
 import Quick
 import Nimble
+import Puree
+import CocoaLumberjack
 
 class PURLoggerSpec: QuickSpec {
     override func spec() {
@@ -7,8 +9,8 @@ class PURLoggerSpec: QuickSpec {
             DDLog.addLogger(DDTTYLogger.sharedInstance())
         })
 
-        describe("tag pattern matching", {
-            it("should pattern matching tags", {
+        describe("tag pattern matching") {
+            it("should pattern matching tags") {
                 expect(PURLogger.matchesTag("aaa",         pattern: "aaa"      ).matched).to(beTruthy());
                 expect(PURLogger.matchesTag("aaa",         pattern: "bbb"      ).matched).to(beFalsy());
                 expect(PURLogger.matchesTag("aaa",         pattern: "*"        ).matched).to(beTruthy());
@@ -25,9 +27,9 @@ class PURLoggerSpec: QuickSpec {
                 expect(PURLogger.matchesTag("a.b",   pattern: "a.**").matched).to(beTruthy());
                 expect(PURLogger.matchesTag("a.b.c", pattern: "a.**").matched).to(beTruthy());
                 expect(PURLogger.matchesTag("b.c",   pattern: "a.**").matched).to(beFalsy());
-            })
+            }
 
-            it("should capture wildcard", {
+            it("should capture wildcard") {
                 expect(PURLogger.matchesTag("aaa.bbb", pattern: "aaa.*").capturedString).to(equal("bbb"));
                 expect(PURLogger.matchesTag("aaa.ccc", pattern: "aaa.*").capturedString).to(equal("ccc"));
 
@@ -35,17 +37,17 @@ class PURLoggerSpec: QuickSpec {
                 expect(PURLogger.matchesTag("a.b",     pattern: "a.**").capturedString).to(equal("b"));
                 expect(PURLogger.matchesTag("a.b.c",   pattern: "a.**").capturedString).to(equal("b.c"));
                 expect(PURLogger.matchesTag("b.c",     pattern: "a.**").capturedString).to(beNil());
-            })
-        })
+            }
+        }
 
-        describe("logger function", {
+        describe("logger function") {
             let date = NSDate().timeIntervalSince1970
-            let logStoreDBPath = NSTemporaryDirectory().stringByAppendingPathComponent("LoggerSpec_\(date).db")
+            let logStoreDBPath = NSTemporaryDirectory() + "/LoggerSpec_\(date).db"
             var logger : PURLogger!
             var testLogStorage : TestLogStorage!
             let configuration = PURLoggerConfiguration()
 
-            beforeEach({
+            beforeEach {
                 testLogStorage = TestLogStorage()
                 configuration.logStore = PURLogStore(databasePath: logStoreDBPath);
                 configuration.filterSettings = [
@@ -61,15 +63,15 @@ class PURLoggerSpec: QuickSpec {
                     PUROutputSetting(output: PURTestFailureOutput.self,  tagPattern: "important",        settings: ["logStorage": testLogStorage]),
                 ]
                 logger = PURLogger(configuration: configuration)
-            })
+            }
 
-            afterEach({
+            afterEach {
                 configuration.logStore.clearAll()
                 logger.shutdown()
-            })
+            }
 
-            describe("change tag filter plugin", {
-                it("should reaction replaced tag pattern", {
+            describe("change tag filter plugin") {
+                it("should reaction replaced tag pattern") {
                     expect(testLogStorage.toString()).to(equal(""))
 
                     logger.postLog(["aaa": "123"], tag: "filter.test")
@@ -78,11 +80,11 @@ class PURLoggerSpec: QuickSpec {
                     logger.postLog(["eee": "not filtered"], tag: "filter.test123")
 
                     expect(testLogStorage.toString()).to(equal("filter.test123-aaa=123, filter.test123-bbb=456_ccc=789, filter.test123-eee=not filtered"))
-                })
-            })
+                }
+            }
 
-            describe("append param filter plugin", {
-                it("should reaction appended logs", {
+            describe("append param filter plugin") {
+                it("should reaction appended logs") {
                     expect(testLogStorage.toString()).to(equal(""))
 
                     logger.postLog(["aaa": "123"], tag: "filter.append")
@@ -91,11 +93,11 @@ class PURLoggerSpec: QuickSpec {
                     logger.postLog(["ccc": "789"], tag: "filter.append.yyy")
 
                     expect(testLogStorage.toString()).to(equal("filter.append-aaa=123_ext=, filter.append.xxx-bbb=456_ext=xxx, filter.append.yyy-ccc=789_ext=yyy"))
-                })
-            })
+                }
+            }
 
-            describe("unbuffered output plugin", {
-                it("should write unbuffered log", {
+            describe("unbuffered output plugin") {
+                it("should write unbuffered log") {
                     expect(testLogStorage.toString()).to(equal(""))
 
                     logger.postLog(["aaa": "123"], tag: "test.hoge")
@@ -103,11 +105,11 @@ class PURLoggerSpec: QuickSpec {
                     logger.postLog(["ddd": "12345"], tag: "debug")
 
                     expect(testLogStorage.toString()).to(equal("test.hoge-aaa=123, test.fuga-bbb=456_ccc=789"))
-                })
-            })
+                }
+            }
 
-            describe("buffered output plugin", {
-                it("should write buffered log", {
+            describe("buffered output plugin") {
+                it("should write buffered log") {
                     expect(testLogStorage.toString()).to(equal(""))
 
                     logger.postLog(["aaa": "1"], tag: "buffered.a")
@@ -131,9 +133,9 @@ class PURLoggerSpec: QuickSpec {
                         "buffered.b-aaa=4",
                         "buffered.a-aaa=5"
                     ), timeout: 1)
-                })
+                }
 
-                it("should resume stored logs", {
+                it("should resume stored logs") {
                     expect(testLogStorage.toString()).to(equal(""))
 
                     logger.postLog(["aaa": "1"], tag: "buffered.c")
@@ -157,9 +159,9 @@ class PURLoggerSpec: QuickSpec {
                         "buffered.c-aaa=2",
                         "buffered.d-aaa=3"
                         ), timeout: 1)
-                });
+                }
 
-                it("should flush logs by flush interval", {
+                it("should flush logs by flush interval") {
                     expect(testLogStorage.toString()).to(equal(""))
 
                     logger.postLog(["aaa": "1"], tag: "buffered.e")
@@ -175,9 +177,9 @@ class PURLoggerSpec: QuickSpec {
                         "buffered.e-aaa=2",
                         "buffered.f-aaa=3"
                         ), timeout: 5)
-                })
+                }
 
-                it("should retry flush logs", {
+                it("should retry flush logs") {
                     expect(testLogStorage.toString()).to(equal(""))
 
                     logger.postLog(["aaa": "1"], tag: "important")
@@ -190,8 +192,8 @@ class PURLoggerSpec: QuickSpec {
                     expect(testLogStorage.toString()).toEventually(equal("error, error"), timeout: 4)
                     expect(testLogStorage.toString()).toEventually(equal("error, error, error"), timeout: 6)
                     expect(testLogStorage.toString()).toEventually(equal("error, error, error, error"), timeout: 10)
-                })
-            })
-        })
+                }
+            }
+        }
     }
 }

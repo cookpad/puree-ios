@@ -1,11 +1,12 @@
 import Quick
 import Nimble
+import Puree
 
 class PURLogStoreSpec: QuickSpec {
     override func spec() {
-        describe("readwrite logs", {
+        describe("readwrite logs") {
             let date = NSDate().timeIntervalSince1970
-            let logStoreDBPath = NSTemporaryDirectory().stringByAppendingPathComponent("LogStoreSpec_\(date).db")
+            let logStoreDBPath = NSTemporaryDirectory() + "/LogStoreSpec_\(date).db"
             var logStore : PURLogStore!
 
             class TestOutputA : PUROutput {
@@ -16,16 +17,16 @@ class PURLogStoreSpec: QuickSpec {
 
             }
 
-            beforeSuite({
+            beforeSuite {
                 logStore = PURLogStore(databasePath: logStoreDBPath)
                 logStore.prepare()
-            })
+            }
 
-            beforeEach({
+            beforeEach {
                 logStore.clearAll()
-            })
+            }
 
-            it("should write log", {
+            it("should write log") {
                 let outputA = TestOutputA(logger: nil, tagPattern: "test.*")
                 let outputB = TestOutputB(logger: nil, tagPattern: "test.*")
 
@@ -49,9 +50,9 @@ class PURLogStoreSpec: QuickSpec {
                     }
                 })
                 expect(count).toEventually(equal(4), timeout: 1)
-            })
+            }
 
-            it("should write logs all together", {
+            it("should write logs all together") {
                 let outputA = TestOutputA(logger: nil, tagPattern: "test.*")
                 let outputB = TestOutputB(logger: nil, tagPattern: "test.*")
 
@@ -82,9 +83,9 @@ class PURLogStoreSpec: QuickSpec {
                     }
                 })
                 expect(count).toEventually(equal(5), timeout: 1)
-            })
+            }
 
-            it("should remove logs", {
+            it("should remove logs") {
                 let outputA = TestOutputA(logger: nil, tagPattern: "test.*")
                 let outputB = TestOutputB(logger: nil, tagPattern: "test.*")
 
@@ -134,25 +135,25 @@ class PURLogStoreSpec: QuickSpec {
                     }
                 })
                 expect(count).toEventually(equal(2), timeout: 1)
-            })
-        })
+            }
+        }
 
-        describe("stress test", {
+        describe("stress test") {
             let date = NSDate().timeIntervalSince1970
-            let logStoreDBPath = NSTemporaryDirectory().stringByAppendingPathComponent("LogStoreSpec_\(date).db")
+            let logStoreDBPath = NSTemporaryDirectory() + "/LogStoreSpec_\(date).db"
             var logStore : PURLogStore!
 
             let outputA = PUROutput(logger: nil, tagPattern: "testA.*")
             let outputB = PUROutput(logger: nil, tagPattern: "testB.*")
             let outputC = PUROutput(logger: nil, tagPattern: "testC.*")
 
-            beforeSuite({
+            beforeSuite {
                 logStore = PURLogStore(databasePath: logStoreDBPath)
                 logStore.prepare()
-            })
+            }
 
-            it("write (3 + 3 + 4) * 100 logs (1000 logs)", {
-                for i in 1...100 {
+            it("write (3 + 3 + 4) * 100 logs (1000 logs)") {
+                for _ in 1...100 {
                     logStore.addLogs([
                         PURLog(tag: "testA.apple", date: NSDate(), userInfo: nil),
                         PURLog(tag: "testA.banana", date: NSDate(), userInfo: nil),
@@ -172,15 +173,15 @@ class PURLogStoreSpec: QuickSpec {
                         PURLog(tag: "testC.peach", date: NSDate(), userInfo: nil),
                         ], fromOutput:outputC);
                 }
-            })
+            }
 
-            it("write 1 * 1000 logs (1000 logs)", {
-                for i in 1...1000 {
+            it("write 1 * 1000 logs (1000 logs)") {
+                for _ in 1...1000 {
                     logStore.addLog(PURLog(tag: "testC.peach", date: NSDate(), userInfo: nil), fromOutput:outputC);
                 }
-            })
+            }
 
-            it("read testA.* logs", {
+            it("read testA.* logs") {
                 var count = -1
                 logStore.retrieveLogsForPattern("testA.*", output: outputA, completion: { logs in
                     if logs != nil {
@@ -188,7 +189,7 @@ class PURLogStoreSpec: QuickSpec {
                     }
                 })
                 expect(count).toEventually(equal(300), timeout: 3)
-            })
-        })
+            }
+        }
     }
 }

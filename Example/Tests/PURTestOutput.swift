@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Puree
 
 class PURTestOutput : PUROutput {
     var logStorage: TestLogStorage?
@@ -18,7 +19,8 @@ class PURTestOutput : PUROutput {
     }
 
     override func emitLog(log: PURLog!) {
-        let record = join("_", map(log.userInfo) { (key, value) in "\(key)=\(value)" })
+        let userInfo = log.userInfo as! [String: String]
+        let record = userInfo.keys.sort().map { "\($0)=\(log.userInfo[$0]!)" }.joinWithSeparator("_")
         self.logStorage?.addLog("\(log.tag)-\(record)")
     }
 }
