@@ -87,7 +87,7 @@ logger.postLog(["recipe_id": "123"], tag: "pv.recipe_detail")
 ```objective-c
 // Objective-C
 
-[logger postLog:@[@"recipe_id": @"123"] tag: @"pv.recipe_detail"]
+[logger postLog:@{@"recipe_id": @"123"} tag: @"pv.recipe_detail"]
 ```
 
 ### Plugins
