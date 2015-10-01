@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Tomohiro Moro. All rights reserved.
 //
 
-#import <YapDatabase/YapDatabase.h>
+#import "YapDatabase/YapDatabase.h"
 #import "PURLogStore.h"
 #import "PURLog.h"
 #import "PUROutput.h"
