@@ -15,11 +15,10 @@
 - (instancetype)initWithLogger:(PURLogger *)logger tagPattern:(NSString *)tagPattern
 {
     self = [super init];
-    if (self) {
-        _identifier = [[NSUUID UUID] UUIDString];
-        _tagPattern = tagPattern;
-        _logger = logger;
-    }
+    _identifier = [[NSUUID UUID] UUIDString];
+    _tagPattern = tagPattern;
+    _logger = logger;
+
     return self;
 }
 
@@ -33,10 +32,10 @@
 
 }
 
-- (NSArray *)logsWithObject:(id)object tag:(NSString *)tag captured:(NSString *)captured
+- (NSArray<PURLog *> *)logsWithObject:(id)object tag:(NSString *)tag captured:(NSString *)captured
 {
     if (![object isKindOfClass:[NSDictionary class]]) {
-        return nil;
+        return @[];
     }
 
     NSDate *currentDate = [self.logger currentDate];

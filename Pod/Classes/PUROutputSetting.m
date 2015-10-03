@@ -10,11 +10,6 @@
 
 @implementation PUROutputSetting
 
-- (instancetype)init
-{
-    return nil;
-}
-
 - (instancetype)initWithOutput:(Class)outputClass tagPattern:(NSString *)tagPattern
 {
     return [self initWithOutput:outputClass tagPattern:tagPattern settings:nil];
@@ -23,11 +18,10 @@
 - (instancetype)initWithOutput:(Class)outputClass tagPattern:(NSString *)tagPattern settings:(NSDictionary *)settings
 {
     self = [super init];
-    if (self) {
-        _outputClass = outputClass;
-        _tagPattern = tagPattern;
-        _settings = settings;
-    }
+    _outputClass = outputClass;
+    _tagPattern = tagPattern;
+    _settings = settings;
+
     return self;
 }
 

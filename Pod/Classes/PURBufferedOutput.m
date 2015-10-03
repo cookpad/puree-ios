@@ -20,13 +20,12 @@ NSUInteger PURBufferedOutputDefaultMaxRetryCount = 3;
 
 @implementation PURBufferedOutputChunk
 
-- (instancetype)initWithLogs:(NSArray *)logs
+- (instancetype)initWithLogs:(NSArray<PURLog *> *)logs
 {
     self = [super init];
-    if (self) {
-        _logs = logs;
-        _retryCount = 0;
-    }
+    _logs = logs;
+    _retryCount = 0;
+
     return self;
 }
 
@@ -34,7 +33,7 @@ NSUInteger PURBufferedOutputDefaultMaxRetryCount = 3;
 
 @interface PURBufferedOutput ()
 
-@property (nonatomic) NSMutableArray *buffer;
+@property (nonatomic) NSMutableArray<PURLog *> *buffer;
 @property (nonatomic) NSUInteger logLimit;
 @property (nonatomic) NSTimeInterval flushInterval;
 @property (nonatomic) NSUInteger maxRetryCount;
@@ -124,7 +123,7 @@ NSUInteger PURBufferedOutputDefaultMaxRetryCount = 3;
 
     [self.logStore retrieveLogsForPattern:self.tagPattern
                                    output:self
-                               completion:^(NSArray *logs){
+                               completion:^(NSArray<PURLog *> *logs){
                                    [self.buffer addObjectsFromArray:logs];
                                }];
 }
@@ -149,7 +148,7 @@ NSUInteger PURBufferedOutputDefaultMaxRetryCount = 3;
 
     NSUInteger logCount = MIN([self.buffer count], self.logLimit);
     NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, logCount)];
-    NSArray *flushLogs = [self.buffer objectsAtIndexes:indexSet];
+    NSArray<PURLog *> *flushLogs = [self.buffer objectsAtIndexes:indexSet];
     [self.buffer removeObjectsAtIndexes:indexSet];
 
     PURBufferedOutputChunk *chunk = [[PURBufferedOutputChunk alloc] initWithLogs:flushLogs];

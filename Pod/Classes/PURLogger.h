@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class PURLoggerConfiguration;
 @class PURLogStore;
 @class PURTagCheckingResult;
@@ -16,6 +18,7 @@
 
 + (PURTagCheckingResult *)matchesTag:(NSString *)tag pattern:(NSString *)pattern;
 
+- (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithConfiguration:(PURLoggerConfiguration *)configuration;
 - (void)postLog:(id)object tag:(NSString *)sourceTag;
 - (void)shutdown;
@@ -24,3 +27,5 @@
 - (NSDate *)currentDate;
 
 @end
+
+NS_ASSUME_NONNULL_END

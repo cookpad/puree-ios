@@ -22,10 +22,10 @@
 
 @property (nonatomic) PURLoggerConfiguration *configuration;
 @property (nonatomic) PURFilter *defaultFilter;
-@property (nonatomic) NSDictionary *filters;
-@property (nonatomic) NSDictionary *filterReactionTagPatterns;
-@property (nonatomic) NSDictionary *outputs;
-@property (nonatomic) NSDictionary *outputReactionTagPatterns;
+@property (nonatomic) NSDictionary<NSString *, PURFilter *> *filters;
+@property (nonatomic) NSDictionary<NSString *, NSString *> *filterReactionTagPatterns;
+@property (nonatomic) NSDictionary<NSString *, PUROutput *> *outputs;
+@property (nonatomic) NSDictionary<NSString *, NSString *> *outputReactionTagPatterns;
 
 @end
 
@@ -92,20 +92,14 @@
     return [PURTagCheckingResult failureResult];
 }
 
-- (instancetype)init
-{
-    return nil;
-}
-
 - (instancetype)initWithConfiguration:(PURLoggerConfiguration *)configuration
 {
     self = [super init];
-    if (self) {
-        _configuration = configuration;
+    _configuration = configuration;
 
-        [self configure];
-        [self startPlugins];
-    }
+    [self configure];
+    [self startPlugins];
+
     return self;
 }
 
@@ -147,13 +141,9 @@
 {
     self.defaultFilter = [[PURFilter alloc] initWithLogger:self tagPattern:nil];
 
-    NSMutableDictionary *filters = [NSMutableDictionary new];
-    NSMutableDictionary *filterReactionTagPatterns = [NSMutableDictionary new];
+    NSMutableDictionary<NSString *, PURFilter *> *filters = [NSMutableDictionary new];
+    NSMutableDictionary<NSString *, NSString *> *filterReactionTagPatterns = [NSMutableDictionary new];
     for (PURFilterSetting *setting in self.configuration.filterSettings) {
-        if (![setting isKindOfClass:[PURFilterSetting class]]) {
-            continue;
-        }
-
         PURFilter *filter = [[setting.filterClass alloc] initWithLogger:self tagPattern:setting.tagPattern];
         if (![filter isKindOfClass:[PURFilter class]]) {
             continue;
@@ -169,13 +159,9 @@
 
 - (void)configureOutputPlugins
 {
-    NSMutableDictionary *outputs = [NSMutableDictionary new];
-    NSMutableDictionary *outputReactionTagPatterns = [NSMutableDictionary new];
+    NSMutableDictionary<NSString *, PUROutput *> *outputs = [NSMutableDictionary new];
+    NSMutableDictionary<NSString *, NSString *> *outputReactionTagPatterns = [NSMutableDictionary new];
     for (PUROutputSetting *setting in self.configuration.outputSettings) {
-        if (![setting isKindOfClass:[PUROutputSetting class]]) {
-            continue;
-        }
-
         PUROutput *output = [[setting.outputClass alloc] initWithLogger:self tagPattern:setting.tagPattern];
         if (![output isKindOfClass:[PUROutput class]]) {
             continue;
@@ -210,9 +196,9 @@
     }
 }
 
-- (NSArray *)filteredLogsWithObject:(id)object tag:(NSString *)tag
+- (NSArray<PURLog *> *)filteredLogsWithObject:(id)object tag:(NSString *)tag
 {
-    NSMutableArray *logs = [NSMutableArray new];
+    NSMutableArray<PURLog *> *logs = [NSMutableArray new];
 
     for (NSString *identifier in self.filterReactionTagPatterns) {
         NSString *pattern = self.filterReactionTagPatterns[identifier];
@@ -223,7 +209,7 @@
         }
 
         PURFilter *filter = self.filters[identifier];
-        NSArray *filteredLogs = [filter logsWithObject:object tag:tag captured:result.capturedString];
+        NSArray<PURLog *> *filteredLogs = [filter logsWithObject:object tag:tag captured:result.capturedString];
         [logs addObjectsFromArray:filteredLogs];
     }
 

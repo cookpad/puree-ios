@@ -8,13 +8,18 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface PURFilterSetting : NSObject
 
+- (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithFilter:(Class)filterClass tagPattern:(NSString *)tagPattern;
-- (instancetype)initWithFilter:(Class)filterClass tagPattern:(NSString *)tagPattern settings:(NSDictionary *)settings;
+- (instancetype)initWithFilter:(Class)filterClass tagPattern:(NSString *)tagPattern settings:(nullable NSDictionary *)settings;
 
 @property (nonatomic, readonly) Class filterClass;
 @property (nonatomic, readonly) NSString *tagPattern;
-@property (nonatomic, readonly) NSDictionary *settings;
+@property (nonatomic, readonly, nullable) NSDictionary *settings;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -11,7 +11,7 @@
 @interface PURTagCheckingResult ()
 
 @property (nonatomic) BOOL matched;
-@property (nonatomic, copy) NSString *capturedString;
+@property (nonatomic, copy, nullable) NSString *capturedString;
 
 @end
 
