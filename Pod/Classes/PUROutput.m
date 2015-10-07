@@ -15,7 +15,7 @@
 {
     self = [super init];
     if (self) {
-        _identifier = [[NSUUID UUID] UUIDString];
+        _identifier = [NSUUID UUID].UUIDString;
         _tagPattern = tagPattern;
         _logger = logger;
     }

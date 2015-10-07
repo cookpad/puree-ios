@@ -15,7 +15,7 @@
 - (instancetype)initWithLogger:(PURLogger *)logger tagPattern:(NSString *)tagPattern
 {
     self = [super init];
-    _identifier = [[NSUUID UUID] UUIDString];
+    _identifier = [NSUUID UUID].UUIDString;
     _tagPattern = tagPattern;
     _logger = logger;
 

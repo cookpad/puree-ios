@@ -13,7 +13,7 @@
 - (instancetype)initWithTag:(NSString *)tag date:(NSDate *)date userInfo:(NSDictionary *)userInfo
 {
     self = [super init];
-    _identifier = [[NSUUID UUID] UUIDString];
+    _identifier = [NSUUID UUID].UUIDString;
     _tag = tag;
     _date = date;
     _userInfo = userInfo;
