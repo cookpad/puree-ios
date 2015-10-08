@@ -114,7 +114,7 @@ NSString *PURLogKey(PUROutput *output, PURLog *log)
     NSAssert(self.databaseConnection, @"Database connection is not available");
 
     [self.databaseConnection readWithBlock:^(YapDatabaseReadTransaction *transaction){
-        NSMutableArray *logs = [NSMutableArray new];
+        NSMutableArray<PURLog *> *logs = [NSMutableArray new];
         NSString *keyPrefix = [NSStringFromClass([output class]) stringByAppendingString:@"_"];
         [transaction enumerateRowsInCollection:PURLogStoreCollectionNameForPattern(output.tagPattern)
                                     usingBlock:^(NSString *key, PURLog *log, id metadata, BOOL *stop){
@@ -141,31 +141,25 @@ NSString *PURLogKey(PUROutput *output, PURLog *log)
     }];
 }
 
-- (void)addLogs:(NSArray *)logs fromOutput:(PUROutput *)output
+- (void)addLogs:(NSArray<PURLog *> *)logs fromOutput:(PUROutput *)output
 {
     NSAssert(self.databaseConnection, @"Database connection is not available");
 
     [self.databaseConnection readWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction){
         NSString *collectionName = PURLogStoreCollectionNameForPattern(output.tagPattern);
         for (PURLog *log in logs) {
-            if (![log isKindOfClass:[PURLog class]]) {
-                continue;
-            }
             [transaction setObject:log forKey:PURLogKey(output, log) inCollection:collectionName];
         }
     }];
 }
 
-- (void)removeLogs:(NSArray *)logs fromOutput:(PUROutput *)output
+- (void)removeLogs:(NSArray<PURLog *> *)logs fromOutput:(PUROutput *)output
 {
     NSAssert(self.databaseConnection, @"Database connection is not available");
 
     [self.databaseConnection readWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction){
         NSString *collectionName = PURLogStoreCollectionNameForPattern(output.tagPattern);
         for (PURLog *log in logs) {
-            if (![log isKindOfClass:[PURLog class]]) {
-                continue;
-            }
             [transaction removeObjectForKey:PURLogKey(output, log) inCollection:collectionName];
         }
     }];

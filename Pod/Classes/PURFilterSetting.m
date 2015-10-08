@@ -10,24 +10,18 @@
 
 @implementation PURFilterSetting
 
-- (instancetype)init
-{
-    return nil;
-}
-
 - (instancetype)initWithFilter:(Class)filterClass tagPattern:(NSString *)tagPattern
 {
     return [self initWithFilter:filterClass tagPattern:tagPattern settings:nil];
 }
 
-- (instancetype)initWithFilter:(Class)filterClass tagPattern:(NSString *)tagPattern settings:(NSDictionary *)settings
+- (instancetype)initWithFilter:(Class)filterClass tagPattern:(NSString *)tagPattern settings:(nullable NSDictionary<NSString *, id> *)settings
 {
     self = [super init];
-    if (self) {
-        _filterClass = filterClass;
-        _tagPattern = tagPattern;
-        _settings = settings;
-    }
+    _filterClass = filterClass;
+    _tagPattern = tagPattern;
+    _settings = settings;
+
     return self;
 }
 

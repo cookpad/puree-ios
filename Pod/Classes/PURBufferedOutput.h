@@ -9,15 +9,17 @@
 #import <Foundation/Foundation.h>
 #import "PUROutput.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 extern NSString * const PURBufferedOutputSettingsLogLimitKey;
 extern NSString * const PURBufferedOutputSettingsFlushIntervalKey;
 extern NSString * const PURBufferedOutputSettingsMaxRetryCountKey;
 
 @interface PURBufferedOutputChunk : NSObject
 
-- (instancetype)initWithLogs:(NSArray *)logs;
+- (instancetype)initWithLogs:(NSArray<PURLog *> *)logs;
 
-@property (nonatomic, readonly) NSArray *logs;
+@property (nonatomic, readonly) NSArray<PURLog *> *logs;
 @property (nonatomic) NSUInteger retryCount;
 
 @end
@@ -35,3 +37,5 @@ extern NSString * const PURBufferedOutputSettingsMaxRetryCountKey;
 @property (nonatomic, readonly) NSOperationQueue *writeChunkQueue;
 
 @end
+
+NS_ASSUME_NONNULL_END

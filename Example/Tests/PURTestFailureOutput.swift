@@ -10,16 +10,16 @@ import Foundation
 import Puree
 
 class PURTestFailureOutput : PURBufferedOutput {
-    var logStorage: TestLogStorage?
+    var logStorage: TestLogStorage!
 
-    override func configure(settings: [NSObject : AnyObject]!) {
+    override func configure(settings: [String : AnyObject]) {
         super.configure(settings)
 
-        self.logStorage = settings["logStorage"] as? TestLogStorage
+        self.logStorage = settings["logStorage"] as! TestLogStorage
     }
 
-    override func writeChunk(chunk: PURBufferedOutputChunk!, completion: ((Bool) -> Void)!) {
-        self.logStorage?.addLog("error");
+    override func writeChunk(chunk: PURBufferedOutputChunk, completion: (Bool) -> Void) {
+        self.logStorage.addLog("error");
         print("\(NSDate()): error!(retry debug)")
         completion(false)
     }

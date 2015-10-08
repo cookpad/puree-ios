@@ -10,14 +10,21 @@ import Foundation
 import Puree
 
 class PURTestChangeTagFilter : PURFilter {
-    var tagSuffix: String!
-    override func configure(settings: [NSObject : AnyObject]!) {
-        tagSuffix = settings["tagSuffix"] as! String!
+    var tagSuffix: String?
+
+    override func configure(settings: [String : AnyObject]) {
+        tagSuffix = settings["tagSuffix"] as? String
     }
 
-    override func logsWithObject(object: AnyObject!, tag: String!, captured: String!) -> [AnyObject]! {
-        let newTag = tag + tagSuffix
+    override func logsWithObject(object: AnyObject, tag: String, captured: String?) -> [PURLog] {
+        guard
+            let userInfo = object as? [NSObject: AnyObject],
+            let suffix = tagSuffix
+        else {
+            return []
+        }
 
-        return [PURLog(tag: newTag, date: NSDate(), userInfo: object as! [NSObject : AnyObject])]
+        let newTag = tag + suffix
+        return [PURLog(tag: newTag, date: self.logger.currentDate(), userInfo: userInfo)]
     }
 }

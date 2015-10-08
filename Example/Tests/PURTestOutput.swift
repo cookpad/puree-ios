@@ -10,17 +10,17 @@ import Foundation
 import Puree
 
 class PURTestOutput : PUROutput {
-    var logStorage: TestLogStorage?
+    var logStorage: TestLogStorage!
 
-    override func configure(settings: [NSObject : AnyObject]!) {
+    override func configure(settings: [String : AnyObject]) {
         super.configure(settings)
 
-        self.logStorage = settings["logStorage"] as? TestLogStorage
+        self.logStorage = settings["logStorage"] as! TestLogStorage
     }
 
-    override func emitLog(log: PURLog!) {
+    override func emitLog(log: PURLog) {
         let userInfo = log.userInfo as! [String: String]
         let record = userInfo.keys.sort().map { "\($0)=\(log.userInfo[$0]!)" }.joinWithSeparator("_")
-        self.logStorage?.addLog("\(log.tag)-\(record)")
+        self.logStorage.addLog("\(log.tag)-\(record)")
     }
 }

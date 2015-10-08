@@ -15,7 +15,7 @@
 {
     self = [super init];
     if (self) {
-        _identifier = [[NSUUID UUID] UUIDString];
+        _identifier = [NSUUID UUID].UUIDString;
         _tagPattern = tagPattern;
         _logger = logger;
     }
@@ -27,7 +27,7 @@
     return self.logger.logStore;
 }
 
-- (void)configure:(NSDictionary *)settings
+- (void)configure:(NSDictionary<NSString *, id> *)settings
 {
 
 }

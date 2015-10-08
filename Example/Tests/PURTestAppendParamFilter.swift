@@ -10,10 +10,15 @@ import Foundation
 import Puree
 
 class PURTestAppendParamFilter : PURFilter {
-    override func logsWithObject(object: AnyObject!, tag: String!, captured: String!) -> [AnyObject]! {
-        var userInfo = object as! [NSObject : AnyObject]
-        userInfo["ext"] = captured;
+    override func logsWithObject(object: AnyObject, tag: String, captured: String?) -> [PURLog] {
+        guard
+            var userInfo = object as? [NSObject: AnyObject],
+            let ext = captured
+        else {
+            return []
+        }
 
-        return [PURLog(tag: tag, date: NSDate(), userInfo: userInfo as [NSObject : AnyObject])]
+        userInfo["ext"] = ext
+        return [PURLog(tag: tag, date: self.logger.currentDate(), userInfo: userInfo)]
     }
 }

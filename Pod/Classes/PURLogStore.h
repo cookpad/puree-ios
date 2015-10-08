@@ -8,10 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class PURLog;
 @class PUROutput;
 
-typedef void(^PURLogStoreRetrieveCompletionBlock)(NSArray *logs);
+typedef void(^PURLogStoreRetrieveCompletionBlock)(NSArray<PURLog *> *logs);
 
 @interface PURLogStore : NSObject
 
@@ -22,8 +24,10 @@ typedef void(^PURLogStoreRetrieveCompletionBlock)(NSArray *logs);
 
 - (void)retrieveLogsForPattern:(NSString *)pattern output:(PUROutput *)output completion:(PURLogStoreRetrieveCompletionBlock)completion;
 - (void)addLog:(PURLog *)log fromOutput:(PUROutput *)output;
-- (void)addLogs:(NSArray *)logs fromOutput:(PUROutput *)output;
-- (void)removeLogs:(NSArray *)logs fromOutput:(PUROutput *)output;
+- (void)addLogs:(NSArray<PURLog *> *)logs fromOutput:(PUROutput *)output;
+- (void)removeLogs:(NSArray<PURLog *> *)logs fromOutput:(PUROutput *)output;
 - (void)clearAll;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -10,23 +10,22 @@ import Foundation
 import Puree
 
 class PURTestBufferedOutput : PURBufferedOutput {
-    var logStorage: TestLogStorage?
+    var logStorage: TestLogStorage!
 
-    override func configure(settings: [NSObject : AnyObject]!) {
+    override func configure(settings: [String : AnyObject]) {
         super.configure(settings)
 
-        self.logStorage = settings["logStorage"] as? TestLogStorage
+        self.logStorage = settings["logStorage"] as! TestLogStorage
     }
 
-    override func writeChunk(chunk: PURBufferedOutputChunk!, completion: ((Bool) -> Void)!) {
-        let logs = chunk.logs as! [PURLog]
-        let logString = (logs as [PURLog]).reduce("") { (result, log) -> String in
+    override func writeChunk(chunk: PURBufferedOutputChunk, completion: (Bool) -> Void) {
+        let logString = chunk.logs.reduce("") { (result, log) -> String in
             let userInfo = log.userInfo as! [String: String]
             let record = userInfo.keys.sort().map { "\($0)=\(log.userInfo[$0]!)" }.joinWithSeparator("_")
 
             return result + "\(log.tag)-\(record)/"
         }
-        self.logStorage?.addLog(logString)
+        self.logStorage.addLog(logString)
         completion(true);
     }
 }
