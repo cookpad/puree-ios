@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface PURFilter : NSObject
 
 - (instancetype)initWithLogger:(PURLogger *)logger tagPattern:(nullable NSString *)tagPattern;
-- (void)configure:(nullable NSDictionary *)settings NS_REQUIRES_SUPER;
+- (void)configure:(NSDictionary<NSString *, id> *)settings NS_REQUIRES_SUPER;
 - (NSArray<PURLog *> *)logsWithObject:(id)object tag:(NSString *)tag captured:(nullable NSString *)captured;
 
 @property (nonatomic, readonly) NSString *identifier;

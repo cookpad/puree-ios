@@ -27,7 +27,7 @@
     return self.logger.logStore;
 }
 
-- (void)configure:(NSDictionary *)settings
+- (void)configure:(NSDictionary<NSString *, id> *)settings
 {
 
 }

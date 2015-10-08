@@ -15,7 +15,7 @@
     return [self initWithFilter:filterClass tagPattern:tagPattern settings:nil];
 }
 
-- (instancetype)initWithFilter:(Class)filterClass tagPattern:(NSString *)tagPattern settings:(NSDictionary *)settings
+- (instancetype)initWithFilter:(Class)filterClass tagPattern:(NSString *)tagPattern settings:(nullable NSDictionary<NSString *, id> *)settings
 {
     self = [super init];
     _filterClass = filterClass;

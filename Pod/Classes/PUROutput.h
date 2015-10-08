@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface PUROutput : NSObject
 
 - (instancetype)initWithLogger:(PURLogger *)logger tagPattern:(NSString *)tagPattern;
-- (void)configure:(nullable NSDictionary *)settings NS_REQUIRES_SUPER;
+- (void)configure:(NSDictionary<NSString *, id> *)settings NS_REQUIRES_SUPER;
 - (void)start NS_REQUIRES_SUPER;
 - (void)resume NS_REQUIRES_SUPER;
 - (void)suspend NS_REQUIRES_SUPER;

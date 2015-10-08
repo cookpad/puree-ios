@@ -12,8 +12,8 @@ import Puree
 class PURTestChangeTagFilter : PURFilter {
     var tagSuffix: String?
 
-    override func configure(settings: [NSObject : AnyObject]?) {
-        tagSuffix = settings?["tagSuffix"] as? String
+    override func configure(settings: [String : AnyObject]) {
+        tagSuffix = settings["tagSuffix"] as? String
     }
 
     override func logsWithObject(object: AnyObject, tag: String, captured: String?) -> [PURLog] {

@@ -149,7 +149,8 @@
             continue;
         }
 
-        [filter configure:setting.settings];
+        NSDictionary<NSString *, id> *pluginSettings = setting.settings ?: @{};
+        [filter configure:pluginSettings];
         filters[filter.identifier] = filter;
         filterReactionTagPatterns[filter.identifier] = setting.tagPattern;
     }
@@ -167,7 +168,8 @@
             continue;
         }
 
-        [output configure:setting.settings];
+        NSDictionary<NSString *, id> *pluginSettings = setting.settings ?: @{};
+        [output configure:pluginSettings];
         outputs[output.identifier] = output;
         outputReactionTagPatterns[output.identifier] = setting.tagPattern;
     }

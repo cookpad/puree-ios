@@ -14,11 +14,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithOutput:(Class)outputClass tagPattern:(NSString *)tagPattern;
-- (instancetype)initWithOutput:(Class)outputClass tagPattern:(NSString *)tagPattern settings:(nullable NSDictionary *)settings;
+- (instancetype)initWithOutput:(Class)outputClass tagPattern:(NSString *)tagPattern settings:(nullable NSDictionary<NSString *, id> *)settings;
 
 @property (nonatomic, readonly) Class outputClass;
 @property (nonatomic, readonly) NSString *tagPattern;
-@property (nonatomic, readonly, nullable) NSDictionary *settings;
+@property (nonatomic, readonly, nullable) NSDictionary<NSString *, id> *settings;
 
 @end
 

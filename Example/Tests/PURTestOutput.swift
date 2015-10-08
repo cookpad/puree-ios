@@ -12,10 +12,10 @@ import Puree
 class PURTestOutput : PUROutput {
     var logStorage: TestLogStorage!
 
-    override func configure(settings: [NSObject : AnyObject]?) {
+    override func configure(settings: [String : AnyObject]) {
         super.configure(settings)
 
-        self.logStorage = settings!["logStorage"] as! TestLogStorage
+        self.logStorage = settings["logStorage"] as! TestLogStorage
     }
 
     override func emitLog(log: PURLog) {

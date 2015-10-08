@@ -15,7 +15,7 @@
     return [self initWithOutput:outputClass tagPattern:tagPattern settings:nil];
 }
 
-- (instancetype)initWithOutput:(Class)outputClass tagPattern:(NSString *)tagPattern settings:(NSDictionary *)settings
+- (instancetype)initWithOutput:(Class)outputClass tagPattern:(NSString *)tagPattern settings:(nullable NSDictionary<NSString *, id> *)settings
 {
     self = [super init];
     _outputClass = outputClass;

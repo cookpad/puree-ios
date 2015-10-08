@@ -61,7 +61,7 @@ NSUInteger PURBufferedOutputDefaultMaxRetryCount = 3;
     [[NSRunLoop currentRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
 }
 
-- (void)configure:(NSDictionary *)settings
+- (void)configure:(NSDictionary<NSString *, id> *)settings
 {
     [super configure:settings];
 
