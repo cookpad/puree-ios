@@ -112,9 +112,9 @@ NSString *PURLogKey(PUROutput *output, PURLog *log)
 - (void)retrieveLogsForPattern:(NSString *)pattern output:(PUROutput *)output completion:(PURLogStoreRetrieveCompletionBlock)completion;
 {
     NSAssert(self.databaseConnection, @"Database connection is not available");
-
+    
+    NSMutableArray<PURLog *> *logs = [NSMutableArray new];
     [self.databaseConnection readWithBlock:^(YapDatabaseReadTransaction *transaction){
-        NSMutableArray<PURLog *> *logs = [NSMutableArray new];
         NSString *keyPrefix = [NSStringFromClass([output class]) stringByAppendingString:@"_"];
         [transaction enumerateRowsInCollection:PURLogStoreCollectionNameForPattern(output.tagPattern)
                                     usingBlock:^(NSString *key, PURLog *log, id metadata, BOOL *stop){
@@ -123,8 +123,8 @@ NSString *PURLogKey(PUROutput *output, PURLog *log)
                                     withFilter:^BOOL(NSString *key){
                                         return [key hasPrefix:keyPrefix];
                                     }];
-        completion(logs);
     }];
+    completion(logs);
 }
 
 - (void)addLog:(PURLog *)log fromOutput:(PUROutput *)output
