@@ -29,19 +29,12 @@ static NSMutableDictionary *__databases;
 
 @end
 
-NSString *PURLogStoreCollectionNameForPattern(NSString *pattern)
+static NSString *PURLogStoreCollectionNameForPattern(NSString *pattern)
 {
     return [LogDataCollectionNamePrefix stringByAppendingString:pattern];
 }
 
-NSDictionary *PURLogStoreMetadataForLog(PURLog *log, PUROutput *output)
-{
-    return @{
-             LogMetadataKeyOutput: NSStringFromClass([output class]),
-             };
-}
-
-NSString *PURLogKey(PUROutput *output, PURLog *log)
+static NSString *PURLogKey(PUROutput *output, PURLog *log)
 {
     return [[NSStringFromClass([output class]) stringByAppendingString:@"_"] stringByAppendingString:log.identifier];
 }
@@ -131,14 +124,7 @@ NSString *PURLogKey(PUROutput *output, PURLog *log)
 {
     NSAssert(self.databaseConnection, @"Database connection is not available");
 
-    if (![log isKindOfClass:[PURLog class]]) {
-        return;
-    }
-
-    [self.databaseConnection readWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction){
-        NSString *collectionName = PURLogStoreCollectionNameForPattern(output.tagPattern);
-        [transaction setObject:log forKey:PURLogKey(output, log) inCollection:collectionName];
-    }];
+    [self addLogs:@[ log ] fromOutput:output];
 }
 
 - (void)addLogs:(NSArray<PURLog *> *)logs fromOutput:(PUROutput *)output
