@@ -85,8 +85,9 @@ static NSString *PURLogKey(PUROutput *output, PURLog *log)
         database = [[YapDatabase alloc] initWithPath:self.databasePath];
         __databases[self.databasePath] = database;
     }
-    self.databaseConnection = [database newConnection];
-
+    if (self.databaseConnection.database != database) {
+        self.databaseConnection = [database newConnection];
+    }
     return self.databaseConnection;
 }
 
@@ -103,9 +104,9 @@ static NSString *PURLogKey(PUROutput *output, PURLog *log)
 - (void)retrieveLogsForPattern:(NSString *)pattern output:(PUROutput *)output completion:(PURLogStoreRetrieveCompletionBlock)completion;
 {
     NSAssert(self.databaseConnection, @"Database connection is not available");
-    
+
     NSMutableArray<PURLog *> *logs = [NSMutableArray new];
-    [self.databaseConnection readWithBlock:^(YapDatabaseReadTransaction *transaction){
+    [self.databaseConnection asyncReadWithBlock:^(YapDatabaseReadTransaction *transaction){
         NSString *keyPrefix = [NSStringFromClass([output class]) stringByAppendingString:@"_"];
         [transaction enumerateRowsInCollection:PURLogStoreCollectionNameForPattern(output.tagPattern)
                                     usingBlock:^(NSString *key, PURLog *log, id metadata, BOOL *stop){
@@ -114,8 +115,10 @@ static NSString *PURLogKey(PUROutput *output, PURLog *log)
                                     withFilter:^BOOL(NSString *key){
                                         return [key hasPrefix:keyPrefix];
                                     }];
-    }];
-    completion(logs);
+    }
+                                completionBlock:^{
+                                    completion(logs);
+                                }];
 }
 
 - (void)addLog:(PURLog *)log fromOutput:(PUROutput *)output
@@ -129,7 +132,7 @@ static NSString *PURLogKey(PUROutput *output, PURLog *log)
 {
     NSAssert(self.databaseConnection, @"Database connection is not available");
 
-    [self.databaseConnection readWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction){
+    [self.databaseConnection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction){
         NSString *collectionName = PURLogStoreCollectionNameForPattern(output.tagPattern);
         for (PURLog *log in logs) {
             [transaction setObject:log forKey:PURLogKey(output, log) inCollection:collectionName];
@@ -141,7 +144,7 @@ static NSString *PURLogKey(PUROutput *output, PURLog *log)
 {
     NSAssert(self.databaseConnection, @"Database connection is not available");
 
-    [self.databaseConnection readWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction){
+    [self.databaseConnection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction){
         NSString *collectionName = PURLogStoreCollectionNameForPattern(output.tagPattern);
         for (PURLog *log in logs) {
             [transaction removeObjectForKey:PURLogKey(output, log) inCollection:collectionName];

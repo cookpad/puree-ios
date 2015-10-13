@@ -83,7 +83,6 @@ NSUInteger PURBufferedOutputDefaultMaxRetryCount = 3;
     [super start];
 
     [self reloadLogStore];
-    [self flush];
 
     [self setUpTimer];
 }
@@ -93,7 +92,6 @@ NSUInteger PURBufferedOutputDefaultMaxRetryCount = 3;
     [super resume];
 
     [self reloadLogStore];
-    [self flush];
 
     [self setUpTimer];
 }
@@ -115,11 +113,13 @@ NSUInteger PURBufferedOutputDefaultMaxRetryCount = 3;
 - (void)reloadLogStore
 {
     [self.buffer removeAllObjects];
-
     [self.logStore retrieveLogsForPattern:self.tagPattern
                                    output:self
                                completion:^(NSArray<PURLog *> *logs){
-                                   [self.buffer addObjectsFromArray:logs];
+                                   if ([self.timer isValid]) {
+                                       [self.buffer addObjectsFromArray:logs];
+                                       [self flush];
+                                   }
                                }];
 }
 
