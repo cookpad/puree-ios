@@ -19,12 +19,11 @@ static NSString * const SystemDataCollectionNamePrefix = @"system_";
 
 static NSString * const LogMetadataKeyOutput = @"_MetadataOutput";
 
-static NSMutableDictionary *__databases;
+static NSMutableDictionary<NSString *, YapDatabase *> *__databases;
 
 @interface PURLogStore ()
 
 @property (nonatomic) NSString *databasePath;
-@property (nonatomic) YapDatabase *database;
 @property (nonatomic) YapDatabaseConnection *databaseConnection;
 
 @end
@@ -86,10 +85,9 @@ static NSString *PURLogKey(PUROutput *output, PURLog *log)
         database = [[YapDatabase alloc] initWithPath:self.databasePath];
         __databases[self.databasePath] = database;
     }
-    self.database = database;
-    self.databaseConnection = [self.database newConnection];
+    self.databaseConnection = [database newConnection];
 
-    return self.database && self.databaseConnection;
+    return self.databaseConnection;
 }
 
 + (NSString *)defaultDatabasePath
