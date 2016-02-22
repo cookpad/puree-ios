@@ -13,11 +13,7 @@
 
 static NSString * const LogDatabaseDirectory = @"com.cookpad.PureeData.default";
 static NSString * const LogDatabaseFileName = @"logs.db";
-
 static NSString * const LogDataCollectionNamePrefix = @"log_";
-static NSString * const SystemDataCollectionNamePrefix = @"system_";
-
-static NSString * const LogMetadataKeyOutput = @"_MetadataOutput";
 
 static NSMutableDictionary<NSString *, YapDatabase *> *__databases;
 
