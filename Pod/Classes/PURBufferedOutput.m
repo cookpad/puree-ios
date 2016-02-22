@@ -82,7 +82,14 @@ NSUInteger PURBufferedOutputDefaultMaxRetryCount = 3;
 {
     [super start];
 
-    [self reloadLogStore];
+    [self.buffer removeAllObjects];
+    [self retrieveLogs:^(NSArray<PURLog *> * _Nonnull logs) {
+        if (![self.timer isValid]) {
+            return;
+        }
+        [self.buffer addObjectsFromArray:logs];
+        [self flush];
+    }];
 
     [self setUpTimer];
 }
@@ -91,7 +98,14 @@ NSUInteger PURBufferedOutputDefaultMaxRetryCount = 3;
 {
     [super resume];
 
-    [self reloadLogStore];
+    [self.buffer removeAllObjects];
+    [self retrieveLogs:^(NSArray<PURLog *> * _Nonnull logs) {
+        if (![self.timer isValid]) {
+            return;
+        }
+        [self.buffer addObjectsFromArray:logs];
+        [self flush];
+    }];
 
     [self setUpTimer];
 }
@@ -110,17 +124,12 @@ NSUInteger PURBufferedOutputDefaultMaxRetryCount = 3;
     }
 }
 
-- (void)reloadLogStore
+- (void)retrieveLogs:(PURLogStoreRetrieveCompletionBlock)completion
 {
     [self.buffer removeAllObjects];
     [self.logStore retrieveLogsForPattern:self.tagPattern
                                    output:self
-                               completion:^(NSArray<PURLog *> *logs){
-                                   if ([self.timer isValid]) {
-                                       [self.buffer addObjectsFromArray:logs];
-                                       [self flush];
-                                   }
-                               }];
+                               completion:completion];
 }
 
 - (void)emitLog:(PURLog *)log
