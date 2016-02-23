@@ -159,7 +159,7 @@ class PURLogStoreSpec: QuickSpec {
                 logStore.retrieveLogsForPattern("testA.*", output: outputA, completion: { logs in
                     count = logs.count
                 })
-                expect(count).toEventually(equal(300), timeout: 3)
+                expect(count).toEventually(equal(300), timeout: 20)
             }
         }
     }

@@ -39,7 +39,6 @@ NSUInteger PURBufferedOutputDefaultMaxRetryCount = 3;
 @property (nonatomic) NSUInteger maxRetryCount;
 @property (nonatomic) CFAbsoluteTime recentFlushTime;
 @property (nonatomic) NSTimer *timer;
-@property (nonatomic) NSOperationQueue *writeChunkQueue;
 
 @end
 
@@ -77,18 +76,20 @@ NSUInteger PURBufferedOutputDefaultMaxRetryCount = 3;
     self.maxRetryCount = value ? [value unsignedIntegerValue] : PURBufferedOutputDefaultMaxRetryCount;
 
     self.buffer = [NSMutableArray new];
-
-    NSOperationQueue *writeChunkQueue = [[NSOperationQueue alloc] init];
-    writeChunkQueue.maxConcurrentOperationCount = 1;
-    self.writeChunkQueue = writeChunkQueue;
 }
 
 - (void)start
 {
     [super start];
 
-    [self reloadLogStore];
-    [self flush];
+    [self.buffer removeAllObjects];
+    [self retrieveLogs:^(NSArray<PURLog *> * _Nonnull logs){
+        if (![self.timer isValid]) {
+            return;
+        }
+        [self.buffer addObjectsFromArray:logs];
+        [self flush];
+    }];
 
     [self setUpTimer];
 }
@@ -97,8 +98,14 @@ NSUInteger PURBufferedOutputDefaultMaxRetryCount = 3;
 {
     [super resume];
 
-    [self reloadLogStore];
-    [self flush];
+    [self.buffer removeAllObjects];
+    [self retrieveLogs:^(NSArray<PURLog *> * _Nonnull logs){
+        if (![self.timer isValid]) {
+            return;
+        }
+        [self.buffer addObjectsFromArray:logs];
+        [self flush];
+    }];
 
     [self setUpTimer];
 }
@@ -117,15 +124,12 @@ NSUInteger PURBufferedOutputDefaultMaxRetryCount = 3;
     }
 }
 
-- (void)reloadLogStore
+- (void)retrieveLogs:(PURLogStoreRetrieveCompletionBlock)completion
 {
     [self.buffer removeAllObjects];
-
     [self.logStore retrieveLogsForPattern:self.tagPattern
                                    output:self
-                               completion:^(NSArray<PURLog *> *logs){
-                                   [self.buffer addObjectsFromArray:logs];
-                               }];
+                               completion:completion];
 }
 
 - (void)emitLog:(PURLog *)log
@@ -152,9 +156,7 @@ NSUInteger PURBufferedOutputDefaultMaxRetryCount = 3;
     [self.buffer removeObjectsAtIndexes:indexSet];
 
     PURBufferedOutputChunk *chunk = [[PURBufferedOutputChunk alloc] initWithLogs:flushLogs];
-    [self.writeChunkQueue addOperationWithBlock:^{
-        [self callWriteChunk:chunk];
-    }];
+    [self callWriteChunk:chunk];
 }
 
 - (void)callWriteChunk:(PURBufferedOutputChunk *)chunk
@@ -170,9 +172,7 @@ NSUInteger PURBufferedOutputDefaultMaxRetryCount = 3;
               if (chunk.retryCount <= self.maxRetryCount) {
                   int64_t delay = 2.0 * pow(2, chunk.retryCount - 1);
                   dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delay * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                      [self.writeChunkQueue addOperationWithBlock:^{
-                          [self callWriteChunk:chunk];
-                      }];
+                      [self callWriteChunk:chunk];
                   });
               }
           }];

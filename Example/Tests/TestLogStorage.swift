@@ -9,7 +9,7 @@
 import Foundation
 
 class TestLogStorage {
-    var storage: [String] = []
+    private var storage: [String] = []
 
     func addLog(log: String) {
         storage.append(log)

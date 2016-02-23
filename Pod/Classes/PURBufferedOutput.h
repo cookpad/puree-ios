@@ -34,7 +34,6 @@ extern NSString * const PURBufferedOutputSettingsMaxRetryCountKey;
 @property (nonatomic, readonly) NSUInteger maxRetryCount;
 @property (nonatomic, readonly) CFAbsoluteTime recentFlushTime;
 @property (nonatomic, readonly) NSTimer *timer;
-@property (nonatomic, readonly) NSOperationQueue *writeChunkQueue;
 
 @end
 

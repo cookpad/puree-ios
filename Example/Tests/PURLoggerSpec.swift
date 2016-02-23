@@ -158,7 +158,7 @@ class PURLoggerSpec: QuickSpec {
                         "buffered.c-aaa=1",
                         "buffered.c-aaa=2",
                         "buffered.d-aaa=3"
-                        ), timeout: 1)
+                        ), timeout: 10)
                 }
 
                 it("should flush logs by flush interval") {
