@@ -83,7 +83,7 @@ NSUInteger PURBufferedOutputDefaultMaxRetryCount = 3;
     [super start];
 
     [self.buffer removeAllObjects];
-    [self retrieveLogs:^(NSArray<PURLog *> * _Nonnull logs) {
+    [self retrieveLogs:^(NSArray<PURLog *> * _Nonnull logs){
         if (![self.timer isValid]) {
             return;
         }
@@ -99,7 +99,7 @@ NSUInteger PURBufferedOutputDefaultMaxRetryCount = 3;
     [super resume];
 
     [self.buffer removeAllObjects];
-    [self retrieveLogs:^(NSArray<PURLog *> * _Nonnull logs) {
+    [self retrieveLogs:^(NSArray<PURLog *> * _Nonnull logs){
         if (![self.timer isValid]) {
             return;
         }
