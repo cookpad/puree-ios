@@ -7,15 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5760F1CE1BB7CD26009A143D /* PURLoggerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5760F1C61BB7CD26009A143D /* PURLoggerSpec.swift */; settings = {ASSET_TAGS = (); }; };
-		5760F1CF1BB7CD26009A143D /* PURLogStoreSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5760F1C71BB7CD26009A143D /* PURLogStoreSpec.swift */; settings = {ASSET_TAGS = (); }; };
-		5760F1D01BB7CD26009A143D /* PURTestAppendParamFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5760F1C81BB7CD26009A143D /* PURTestAppendParamFilter.swift */; settings = {ASSET_TAGS = (); }; };
-		5760F1D11BB7CD26009A143D /* PURTestBufferedOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5760F1C91BB7CD26009A143D /* PURTestBufferedOutput.swift */; settings = {ASSET_TAGS = (); }; };
-		5760F1D21BB7CD26009A143D /* PURTestChangeTagFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5760F1CA1BB7CD26009A143D /* PURTestChangeTagFilter.swift */; settings = {ASSET_TAGS = (); }; };
-		5760F1D31BB7CD26009A143D /* PURTestFailureOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5760F1CB1BB7CD26009A143D /* PURTestFailureOutput.swift */; settings = {ASSET_TAGS = (); }; };
-		5760F1D41BB7CD26009A143D /* PURTestOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5760F1CC1BB7CD26009A143D /* PURTestOutput.swift */; settings = {ASSET_TAGS = (); }; };
-		5760F1D51BB7CD26009A143D /* TestLogStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5760F1CD1BB7CD26009A143D /* TestLogStorage.swift */; settings = {ASSET_TAGS = (); }; };
-		6B7B79BF85E4C49E48EC4379 /* Pods_PureeTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BDE65346E6FE8CC7F154AE7 /* Pods_PureeTests.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		5760F1CE1BB7CD26009A143D /* PURLoggerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5760F1C61BB7CD26009A143D /* PURLoggerSpec.swift */; };
+		5760F1CF1BB7CD26009A143D /* PURLogStoreSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5760F1C71BB7CD26009A143D /* PURLogStoreSpec.swift */; };
+		5760F1D01BB7CD26009A143D /* PURTestAppendParamFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5760F1C81BB7CD26009A143D /* PURTestAppendParamFilter.swift */; };
+		5760F1D11BB7CD26009A143D /* PURTestBufferedOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5760F1C91BB7CD26009A143D /* PURTestBufferedOutput.swift */; };
+		5760F1D21BB7CD26009A143D /* PURTestChangeTagFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5760F1CA1BB7CD26009A143D /* PURTestChangeTagFilter.swift */; };
+		5760F1D31BB7CD26009A143D /* PURTestFailureOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5760F1CB1BB7CD26009A143D /* PURTestFailureOutput.swift */; };
+		5760F1D41BB7CD26009A143D /* PURTestOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5760F1CC1BB7CD26009A143D /* PURTestOutput.swift */; };
+		5760F1D51BB7CD26009A143D /* TestLogStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5760F1CD1BB7CD26009A143D /* TestLogStorage.swift */; };
+		6B7B79BF85E4C49E48EC4379 /* Pods_PureeTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BDE65346E6FE8CC7F154AE7 /* Pods_PureeTests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
