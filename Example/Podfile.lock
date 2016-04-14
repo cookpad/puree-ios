@@ -8,7 +8,7 @@ PODS:
   - CocoaLumberjack/Extensions (2.2.0):
     - CocoaLumberjack/Default
   - Nimble (4.0.0)
-  - Puree (1.1.0):
+  - Puree (1.2.0):
     - YapDatabase (~> 2.9)
   - Quick (0.9.2)
   - Reachability (3.2)
@@ -75,7 +75,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   CocoaLumberjack: 17fe8581f84914d5d7e6360f7c70022b173c3ae0
   Nimble: 72bcc3e2f02242e6bfaaf8d9412ca7bfe3d8b417
-  Puree: 5a739d83e87665e1fc491a008c1291df4affee7b
+  Puree: bfc043794726221ecc6a93ddb98ce108a7aa11d6
   Quick: 18d057bc66451eedd5d1c8dc99ba2a5db6e60226
   Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
   YapDatabase: c00f4197bba2fea17bdbd82c8e8e3f7104b6fa67
