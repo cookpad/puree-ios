@@ -15,5 +15,5 @@ Pod::Spec.new do |s|
     'Puree' => ['Pod/Assets/*.png']
   }
 
-  s.dependency 'YapDatabase', '~> 2.8.3'
+  s.dependency 'YapDatabase', '~> 2.9'
 end
