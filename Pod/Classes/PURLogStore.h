@@ -1,11 +1,3 @@
-//
-//  PURLogStore.h
-//  Puree
-//
-//  Created by tomohiro-moro on 10/7/14.
-//  Copyright (c) 2014 Tomohiro Moro. All rights reserved.
-//
-
 #import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
@@ -23,9 +15,9 @@ typedef void(^PURLogStoreRetrieveCompletionBlock)(NSArray<PURLog *> *logs);
 - (BOOL)prepare;
 
 - (void)retrieveLogsForPattern:(NSString *)pattern output:(PUROutput *)output completion:(PURLogStoreRetrieveCompletionBlock)completion;
-- (void)addLog:(PURLog *)log fromOutput:(PUROutput *)output;
-- (void)addLogs:(NSArray<PURLog *> *)logs fromOutput:(PUROutput *)output;
-- (void)removeLogs:(NSArray<PURLog *> *)logs fromOutput:(PUROutput *)output;
+- (void)addLog:(PURLog *)log fromOutput:(PUROutput *)output completion:(nullable void (^)(void))completion;
+- (void)addLogs:(NSArray<PURLog *> *)logs fromOutput:(PUROutput *)output completion:(nullable void (^)(void))completion;
+- (void)removeLogs:(NSArray<PURLog *> *)logs fromOutput:(PUROutput *)output completion:(nullable void (^)(void))completion;
 - (void)clearAll;
 
 @end

@@ -135,11 +135,11 @@ NSUInteger PURBufferedOutputDefaultMaxRetryCount = 3;
 - (void)emitLog:(PURLog *)log
 {
     [self.buffer addObject:log];
-    [self.logStore addLog:log fromOutput:self];
-
-    if ([self.buffer count] >= self.logLimit) {
-        [self flush];
-    }
+    [self.logStore addLog:log fromOutput:self completion:^{
+        if ([self.buffer count] >= self.logLimit) {
+            [self flush];
+        }
+    }];
 }
 
 - (void)flush
@@ -164,7 +164,7 @@ NSUInteger PURBufferedOutputDefaultMaxRetryCount = 3;
     [self writeChunk:chunk
           completion:^(BOOL success){
               if (success) {
-                  [self.logStore removeLogs:chunk.logs fromOutput:self];
+                  [self.logStore removeLogs:chunk.logs fromOutput:self completion:nil];
                   return;
               }
 

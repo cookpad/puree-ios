@@ -21,6 +21,7 @@ static NSMutableDictionary<NSString *, YapDatabase *> *__databases;
 
 @property (nonatomic) NSString *databasePath;
 @property (nonatomic) YapDatabaseConnection *databaseConnection;
+@property (nonatomic) dispatch_queue_t databaseReadWriteCompletionQueue;
 
 @end
 
@@ -54,8 +55,13 @@ static NSString *PURLogKey(PUROutput *output, PURLog *log)
     self = [super init];
     if (self) {
         _databasePath = databasePath;
+        _databaseReadWriteCompletionQueue = dispatch_queue_create("PureeLogStoreReadWriteCompletion", NULL);
     }
     return self;
+}
+
+- (void)dealloc {
+    self.databaseReadWriteCompletionQueue = nil;
 }
 
 - (BOOL)prepare
@@ -112,19 +118,20 @@ static NSString *PURLogKey(PUROutput *output, PURLog *log)
                                         return [key hasPrefix:keyPrefix];
                                     }];
     }
+                                completionQueue:self.databaseReadWriteCompletionQueue
                                 completionBlock:^{
                                     completion(logs);
                                 }];
 }
 
-- (void)addLog:(PURLog *)log fromOutput:(PUROutput *)output
+- (void)addLog:(PURLog *)log fromOutput:(PUROutput *)output completion:(nullable void (^)(void))completion
 {
     NSAssert(self.databaseConnection, @"Database connection is not available");
 
-    [self addLogs:@[ log ] fromOutput:output];
+    [self addLogs:@[ log ] fromOutput:output completion:completion];
 }
 
-- (void)addLogs:(NSArray<PURLog *> *)logs fromOutput:(PUROutput *)output
+- (void)addLogs:(NSArray<PURLog *> *)logs fromOutput:(PUROutput *)output completion:(nullable void (^)(void))completion
 {
     NSAssert(self.databaseConnection, @"Database connection is not available");
 
@@ -133,10 +140,12 @@ static NSString *PURLogKey(PUROutput *output, PURLog *log)
         for (PURLog *log in logs) {
             [transaction setObject:log forKey:PURLogKey(output, log) inCollection:collectionName];
         }
-    }];
+    }
+                                     completionQueue:self.databaseReadWriteCompletionQueue
+                                     completionBlock:completion];
 }
 
-- (void)removeLogs:(NSArray<PURLog *> *)logs fromOutput:(PUROutput *)output
+- (void)removeLogs:(NSArray<PURLog *> *)logs fromOutput:(PUROutput *)output completion:(nullable void (^)(void))completion
 {
     NSAssert(self.databaseConnection, @"Database connection is not available");
 
@@ -145,7 +154,9 @@ static NSString *PURLogKey(PUROutput *output, PURLog *log)
         for (PURLog *log in logs) {
             [transaction removeObjectForKey:PURLogKey(output, log) inCollection:collectionName];
         }
-    }];
+    }
+                                     completionQueue:self.databaseReadWriteCompletionQueue
+                                     completionBlock:completion];
 }
 
 - (void)clearAll
