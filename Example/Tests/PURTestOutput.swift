@@ -4,7 +4,7 @@ import Puree
 class PURTestOutput : PUROutput {
     var logStorage: TestLogStorage!
 
-    override func configure(_ settings: [String : AnyObject]) {
+    override func configure(_ settings: [String : Any]) {
         super.configure(settings)
 
         self.logStorage = settings["logStorage"] as! TestLogStorage
