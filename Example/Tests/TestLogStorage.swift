@@ -1,21 +1,13 @@
-//
-//  TestLogStorage.swift
-//  Puree
-//
-//  Created by tomohiro-moro on 12/10/14.
-//  Copyright (c) 2014 Tomohiro Moro. All rights reserved.
-//
-
 import Foundation
 
 class TestLogStorage {
-    private var storage: [String] = []
+    fileprivate var storage: [String] = []
 
-    func addLog(log: String) {
+    func addLog(_ log: String) {
         storage.append(log)
     }
 
     func toString() -> String {
-        return storage.joinWithSeparator(", ")
+        return storage.joined(separator: ", ")
     }
 }
