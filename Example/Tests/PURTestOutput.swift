@@ -1,18 +1,20 @@
 import Foundation
 import Puree
 
-class PURTestOutput : PUROutput {
+class PURTestOutput: PUROutput {
     var logStorage: TestLogStorage!
 
-    override func configure(_ settings: [String : Any]) {
-        super.configure(settings)
+    override func configure(settings: [String: Any]) {
+        super.configure(settings: settings)
 
-        self.logStorage = settings["logStorage"] as! TestLogStorage
+        if let logStorage = settings["logStorage"] as? TestLogStorage {
+            self.logStorage = logStorage
+        }
     }
 
-    override func emitLog(_ log: PURLog) {
+    override func emit(log: PURLog) {
         let userInfo = log.userInfo as! [String: String]
         let record = userInfo.keys.sorted().map { "\($0)=\(log.userInfo[$0]!)" }.joined(separator: "_")
-        self.logStorage.addLog("\(log.tag)-\(record)")
+        self.logStorage.add(log: "\(log.tag)|\(record)")
     }
 }

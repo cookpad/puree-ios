@@ -1,18 +1,15 @@
 import Foundation
 import Puree
 
-class PURTestChangeTagFilter : PURFilter {
+class PURTestChangeTagFilter: PURFilter {
     var tagSuffix: String?
 
-    override func configure(_ settings: [String : Any]) {
+    override func configure(settings: [String: Any]) {
         tagSuffix = settings["tagSuffix"] as? String
     }
 
-    override func logs(with object: Any, tag: String, captured: String?) -> [PURLog] {
-        guard
-            let userInfo = object as? [AnyHashable: Any],
-            let suffix = tagSuffix
-        else {
+    override func logs(object: Any, tag: String, captured: String?) -> [PURLog] {
+        guard let userInfo = object as? [AnyHashable: Any], let suffix = tagSuffix else {
             return []
         }
 

@@ -1,13 +1,13 @@
 import Foundation
 
-class TestLogStorage {
+class TestLogStorage: CustomStringConvertible {
     fileprivate var storage: [String] = []
 
-    func addLog(_ log: String) {
+    func add(log: String) {
         storage.append(log)
     }
 
-    func toString() -> String {
+    var description: String {
         return storage.joined(separator: ", ")
     }
 }
