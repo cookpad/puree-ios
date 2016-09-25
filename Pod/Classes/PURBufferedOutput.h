@@ -18,7 +18,7 @@ extern NSString * const PURBufferedOutputSettingsMaxRetryCountKey;
 
 @interface PURBufferedOutput : PUROutput
 
-- (void)writeChunk:(PURBufferedOutputChunk *)chunk completion:(void (^)(BOOL success))completion;
+- (void)writeChunk:(PURBufferedOutputChunk *)chunk completion:(void (^)(BOOL success))completion NS_SWIFT_NAME(write(chunk:completion:));
 - (void)tick;
 
 @property (nonatomic, readonly) NSUInteger logLimit;

@@ -9,6 +9,8 @@ static NSString * const LogDataCollectionNamePrefix = @"log_";
 
 static NSMutableDictionary<NSString *, YapDatabase *> *__databases;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface PURLogStore ()
 
 @property (nonatomic) NSString *databasePath;
@@ -16,6 +18,8 @@ static NSMutableDictionary<NSString *, YapDatabase *> *__databases;
 @property (nonatomic) dispatch_queue_t databaseReadWriteCompletionQueue;
 
 @end
+
+NS_ASSUME_NONNULL_END
 
 static NSString *PURLogStoreCollectionNameForPattern(NSString *pattern)
 {
