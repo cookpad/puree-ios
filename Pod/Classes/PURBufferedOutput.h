@@ -7,6 +7,13 @@ extern NSString * const PURBufferedOutputSettingsLogLimitKey;
 extern NSString * const PURBufferedOutputSettingsFlushIntervalKey;
 extern NSString * const PURBufferedOutputSettingsMaxRetryCountKey;
 
+extern NSString * const PURBufferedOutputDidStartNotification;
+extern NSString * const PURBufferedOutputDidResumeNotification;
+extern NSString * const PURBufferedOutputDidFlushNotification;
+extern NSString * const PURBufferedOutputDidTryWriteChunkNotification;
+extern NSString * const PURBufferedOutputDidSuccessWriteChunkNotification;
+extern NSString * const PURBufferedOutputDidRetryWriteChunkNotification;
+
 @interface PURBufferedOutputChunk : NSObject
 
 - (instancetype)initWithLogs:(NSArray<PURLog *> *)logs;

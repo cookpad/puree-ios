@@ -15,6 +15,7 @@
 		5760F1D31BB7CD26009A143D /* PURTestFailureOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5760F1CB1BB7CD26009A143D /* PURTestFailureOutput.swift */; };
 		5760F1D41BB7CD26009A143D /* PURTestOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5760F1CC1BB7CD26009A143D /* PURTestOutput.swift */; };
 		5760F1D51BB7CD26009A143D /* TestLogStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5760F1CD1BB7CD26009A143D /* TestLogStorage.swift */; };
+		57ABD6DC1D979CE300B3B52D /* PURLoggerStandardPluginTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57ABD6DB1D979CE300B3B52D /* PURLoggerStandardPluginTest.swift */; };
 		63558BFD2171AF61402ECA48 /* Pods_PureeTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 501F680AA62C916D4E54EF9E /* Pods_PureeTests.framework */; };
 /* End PBXBuildFile section */
 
@@ -32,6 +33,7 @@
 		5760F1CB1BB7CD26009A143D /* PURTestFailureOutput.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PURTestFailureOutput.swift; sourceTree = "<group>"; };
 		5760F1CC1BB7CD26009A143D /* PURTestOutput.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PURTestOutput.swift; sourceTree = "<group>"; };
 		5760F1CD1BB7CD26009A143D /* TestLogStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestLogStorage.swift; sourceTree = "<group>"; };
+		57ABD6DB1D979CE300B3B52D /* PURLoggerStandardPluginTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PURLoggerStandardPluginTest.swift; sourceTree = "<group>"; };
 		6003F58D195388D20070C39A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6003F58F195388D20070C39A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		6003F591195388D20070C39A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -67,6 +69,7 @@
 			children = (
 				5760F1C71BB7CD26009A143D /* PURLogStoreTest.swift */,
 				5760F1C61BB7CD26009A143D /* PURLoggerTagPatternMatchingTest.swift */,
+				57ABD6DB1D979CE300B3B52D /* PURLoggerStandardPluginTest.swift */,
 				5760F1CD1BB7CD26009A143D /* TestLogStorage.swift */,
 				5760F1C51BB7CCAD009A143D /* TestPlugins */,
 				5760F1BD1BB7CBFD009A143D /* Info.plist */,
@@ -254,6 +257,7 @@
 				5760F1D11BB7CD26009A143D /* PURTestBufferedOutput.swift in Sources */,
 				5760F1D31BB7CD26009A143D /* PURTestFailureOutput.swift in Sources */,
 				5760F1CE1BB7CD26009A143D /* PURLoggerTagPatternMatchingTest.swift in Sources */,
+				57ABD6DC1D979CE300B3B52D /* PURLoggerStandardPluginTest.swift in Sources */,
 				5760F1D41BB7CD26009A143D /* PURTestOutput.swift in Sources */,
 				5760F1D51BB7CD26009A143D /* TestLogStorage.swift in Sources */,
 				5760F1CF1BB7CD26009A143D /* PURLogStoreTest.swift in Sources */,

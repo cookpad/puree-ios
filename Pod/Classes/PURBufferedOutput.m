@@ -6,6 +6,13 @@ NSString * const PURBufferedOutputSettingsLogLimitKey = @"BufferedOutputLogLimit
 NSString * const PURBufferedOutputSettingsFlushIntervalKey = @"BufferedOutputFlushInterval";
 NSString * const PURBufferedOutputSettingsMaxRetryCountKey = @"BufferedOutputMaxRetryCount";
 
+NSString * const PURBufferedOutputDidStartNotification = @"PURBufferedOutputDidStartNotification";
+NSString * const PURBufferedOutputDidResumeNotification = @"PURBufferedOutputDidResumeNotification";
+NSString * const PURBufferedOutputDidFlushNotification = @"PURBufferedOutputDidFlushNotification";
+NSString * const PURBufferedOutputDidTryWriteChunkNotification = @"PURBufferedOutputDidTryWriteChunkNotification";
+NSString * const PURBufferedOutputDidSuccessWriteChunkNotification = @"PURBufferedOutputDidSuccessWriteChunkNotification";
+NSString * const PURBufferedOutputDidRetryWriteChunkNotification = @"PURBufferedOutputDidRetryWriteChunkNotification";
+
 NSUInteger PURBufferedOutputDefaultLogLimit = 5;
 NSTimeInterval PURBufferedOutputDefaultFlushInterval = 10;
 NSUInteger PURBufferedOutputDefaultMaxRetryCount = 3;
@@ -76,6 +83,8 @@ NSUInteger PURBufferedOutputDefaultMaxRetryCount = 3;
 
     [self.buffer removeAllObjects];
     [self retrieveLogs:^(NSArray<PURLog *> * _Nonnull logs){
+        [[NSNotificationCenter defaultCenter] postNotificationName:PURBufferedOutputDidStartNotification object:self];
+
         if (![self.timer isValid]) {
             return;
         }
@@ -92,6 +101,8 @@ NSUInteger PURBufferedOutputDefaultMaxRetryCount = 3;
 
     [self.buffer removeAllObjects];
     [self retrieveLogs:^(NSArray<PURLog *> * _Nonnull logs){
+        [[NSNotificationCenter defaultCenter] postNotificationName:PURBufferedOutputDidResumeNotification object:self];
+
         if (![self.timer isValid]) {
             return;
         }
@@ -149,14 +160,20 @@ NSUInteger PURBufferedOutputDefaultMaxRetryCount = 3;
 
     PURBufferedOutputChunk *chunk = [[PURBufferedOutputChunk alloc] initWithLogs:flushLogs];
     [self callWriteChunk:chunk];
+
+    [[NSNotificationCenter defaultCenter] postNotificationName:PURBufferedOutputDidFlushNotification object:self];
 }
 
 - (void)callWriteChunk:(PURBufferedOutputChunk *)chunk
 {
     [self writeChunk:chunk
           completion:^(BOOL success){
+              [[NSNotificationCenter defaultCenter] postNotificationName:PURBufferedOutputDidTryWriteChunkNotification object:self];
+
               if (success) {
                   [self.logStore removeLogs:chunk.logs fromOutput:self completion:nil];
+
+                  [[NSNotificationCenter defaultCenter] postNotificationName:PURBufferedOutputDidSuccessWriteChunkNotification object:self];
                   return;
               }
 
@@ -164,6 +181,8 @@ NSUInteger PURBufferedOutputDefaultMaxRetryCount = 3;
               if (chunk.retryCount <= self.maxRetryCount) {
                   int64_t delay = 2.0 * pow(2, chunk.retryCount - 1);
                   dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delay * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                      [[NSNotificationCenter defaultCenter] postNotificationName:PURBufferedOutputDidRetryWriteChunkNotification object:self];
+
                       [self callWriteChunk:chunk];
                   });
               }

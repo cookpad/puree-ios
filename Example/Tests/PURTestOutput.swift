@@ -14,7 +14,7 @@ class PURTestOutput: PUROutput {
 
     override func emit(log: PURLog) {
         let userInfo = log.userInfo as! [String: String]
-        let record = userInfo.keys.sorted().map { "\($0)=\(log.userInfo[$0]!)" }.joined(separator: "_")
+        let record = userInfo.keys.sorted().map { "\($0):\(log.userInfo[$0]!)" }.joined(separator: ",")
         self.logStorage.add(log: "\(log.tag)|\(record)")
     }
 }
