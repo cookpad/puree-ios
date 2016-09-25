@@ -9,7 +9,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) NSString *identifier;
 @property (nonatomic, readonly) NSString *tag;
 @property (nonatomic, readonly) NSDate *date;
-@property (nonatomic, readonly) NSDictionary *userInfo;
+@property (nonatomic, readonly, nullable) NSDictionary<NSString *, id> *userInfo;
 
 @end
 
