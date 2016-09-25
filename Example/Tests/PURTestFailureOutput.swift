@@ -11,7 +11,7 @@ class PURTestFailureOutput : PURBufferedOutput {
     }
 
     override func write(_ chunk: PURBufferedOutputChunk, completion: @escaping (Bool) -> Void) {
-        self.logStorage.addLog("error");
+        self.logStorage.addLog("error")
         print("\(Date()): error!(retry debug)")
         completion(false)
     }

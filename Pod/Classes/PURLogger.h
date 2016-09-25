@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface PURLogger : NSObject
 
-+ (PURTagCheckingResult *)matchesTag:(NSString *)tag pattern:(NSString *)pattern;
++ (PURTagCheckingResult *)matchesTag:(NSString *)tag pattern:(NSString *)pattern NS_SWIFT_NAME(matches(tag:pattern:));
 
 - (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithConfiguration:(PURLoggerConfiguration *)configuration;

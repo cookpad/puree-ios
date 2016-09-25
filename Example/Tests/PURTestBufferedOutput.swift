@@ -18,6 +18,6 @@ class PURTestBufferedOutput : PURBufferedOutput {
             return result + "\(log.tag)-\(record)/"
         }
         self.logStorage.addLog(logString)
-        completion(true);
+        completion(true)
     }
 }
