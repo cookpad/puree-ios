@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithConfiguration:(PURLoggerConfiguration *)configuration;
-- (void)postLog:(id)object tag:(NSString *)sourceTag;
+- (void)postLog:(id)object tag:(NSString *)sourceTag NS_SWIFT_NAME(post(_:tag:));
 - (void)shutdown;
 
 - (PURLogStore *)logStore;

@@ -37,10 +37,10 @@ class PURLoggerStandardPluginTest: XCTestCase {
 
         XCTAssertEqual(testLogStorage.description, "")
 
-        logger.postLog(["aaa": "123"], tag: "filter.test")
-        logger.postLog(["bbb": "456", "ccc": "789"], tag: "filter.test")
-        logger.postLog(["ddd": "12345"], tag: "debug")
-        logger.postLog(["eee": "not filtered"], tag: "filter.testXXX")
+        logger.post(["aaa": "123"], tag: "filter.test")
+        logger.post(["bbb": "456", "ccc": "789"], tag: "filter.test")
+        logger.post(["ddd": "12345"], tag: "debug")
+        logger.post(["eee": "not filtered"], tag: "filter.testXXX")
 
         XCTAssertEqual(testLogStorage.description, "[filter.testXXX|aaa:123][filter.testXXX|bbb:456,ccc:789][filter.testXXX|eee:not filtered]")
 
@@ -55,10 +55,10 @@ class PURLoggerStandardPluginTest: XCTestCase {
 
         XCTAssertEqual(testLogStorage.description, "")
 
-        logger.postLog(["aaa": "123"], tag: "filter.append")
-        logger.postLog(["bbb": "456"], tag: "filter.append.xxx")
-        logger.postLog(["ddd": "12345"], tag: "debug")
-        logger.postLog(["ccc": "789"], tag: "filter.append.yyy")
+        logger.post(["aaa": "123"], tag: "filter.append")
+        logger.post(["bbb": "456"], tag: "filter.append.xxx")
+        logger.post(["ddd": "12345"], tag: "debug")
+        logger.post(["ccc": "789"], tag: "filter.append.yyy")
 
         XCTAssertEqual(testLogStorage.description, "[filter.append|aaa:123,ext:][filter.append.xxx|bbb:456,ext:xxx][filter.append.yyy|ccc:789,ext:yyy]")
 
@@ -73,9 +73,9 @@ class PURLoggerStandardPluginTest: XCTestCase {
 
         XCTAssertEqual(testLogStorage.description, "")
 
-        logger.postLog(["aaa": "123"], tag: "test.hoge")
-        logger.postLog(["bbb": "456", "ccc": "789"], tag: "test.fuga")
-        logger.postLog(["ddd": "12345"], tag: "debug")
+        logger.post(["aaa": "123"], tag: "test.hoge")
+        logger.post(["bbb": "456", "ccc": "789"], tag: "test.fuga")
+        logger.post(["ddd": "12345"], tag: "debug")
 
         XCTAssertEqual(testLogStorage.description, "[test.hoge|aaa:123][test.fuga|bbb:456,ccc:789]")
 
@@ -95,18 +95,18 @@ class PURLoggerStandardPluginTest: XCTestCase {
 
         expectation(forNotification: Notification.Name.PURBufferedOutputDidSuccessWriteChunk.rawValue, object: nil, handler: nil)
 
-        logger.postLog(["aaa": "1"], tag: "buffered.a")
-        logger.postLog(["aaa": "2"], tag: "buffered.a")
-        logger.postLog(["aaa": "3"], tag: "buffered.b")
+        logger.post(["aaa": "1"], tag: "buffered.a")
+        logger.post(["aaa": "2"], tag: "buffered.a")
+        logger.post(["aaa": "3"], tag: "buffered.b")
 
         XCTAssertEqual(testLogStorage.description, "")
 
-        logger.postLog(["aaa": "4"], tag: "buffered.b")
-        logger.postLog(["zzz": "###"], tag: "unbuffered")
-        logger.postLog(["aaa": "5"], tag: "buffered.a") // <- flush!
+        logger.post(["aaa": "4"], tag: "buffered.b")
+        logger.post(["zzz": "###"], tag: "unbuffered")
+        logger.post(["aaa": "5"], tag: "buffered.a") // <- flush!
 
         // stay in buffer
-        logger.postLog(["aaa": "6"], tag: "buffered.a")
+        logger.post(["aaa": "6"], tag: "buffered.a")
 
         waitForExpectations(timeout: 1.0, handler: nil)
 
@@ -135,9 +135,9 @@ class PURLoggerStandardPluginTest: XCTestCase {
 
         expectation(forNotification: Notification.Name.PURBufferedOutputDidSuccessWriteChunk.rawValue, object: nil, handler: nil)
 
-        logger.postLog(["aaa": "1"], tag: "buffered.c")
-        logger.postLog(["aaa": "2"], tag: "buffered.c")
-        logger.postLog(["aaa": "3"], tag: "buffered.d")
+        logger.post(["aaa": "1"], tag: "buffered.c")
+        logger.post(["aaa": "2"], tag: "buffered.c")
+        logger.post(["aaa": "3"], tag: "buffered.d")
 
         XCTAssertEqual(testLogStorage.description, "")
 
@@ -149,10 +149,10 @@ class PURLoggerStandardPluginTest: XCTestCase {
 
         waitForExpectations(timeout: 1.0, handler: nil)
 
-        logger.postLog(["aaa": "4"], tag: "buffered.d") // stay in buffer
-        logger.postLog(["zzz": "###"], tag: "unbuffered")
-        logger.postLog(["aaa": "5"], tag: "buffered.c") // stay in buffer
-        logger.postLog(["aaa": "6"], tag: "buffered.c") // stay in buffer
+        logger.post(["aaa": "4"], tag: "buffered.d") // stay in buffer
+        logger.post(["zzz": "###"], tag: "unbuffered")
+        logger.post(["aaa": "5"], tag: "buffered.c") // stay in buffer
+        logger.post(["aaa": "6"], tag: "buffered.c") // stay in buffer
 
         let logStorageContent = testLogStorage.description
         XCTAssertTrue(logStorageContent.contains("[unbuffered|zzz:###]"))
@@ -180,9 +180,9 @@ class PURLoggerStandardPluginTest: XCTestCase {
 
         expectation(forNotification: Notification.Name.PURBufferedOutputDidSuccessWriteChunk.rawValue, object: nil, handler: nil)
 
-        logger.postLog(["aaa": "1"], tag: "buffered.e")
-        logger.postLog(["aaa": "2"], tag: "buffered.e")
-        logger.postLog(["aaa": "3"], tag: "buffered.f")
+        logger.post(["aaa": "1"], tag: "buffered.e")
+        logger.post(["aaa": "2"], tag: "buffered.e")
+        logger.post(["aaa": "3"], tag: "buffered.f")
 
         XCTAssertEqual(testLogStorage.description, "")
 
@@ -210,11 +210,11 @@ class PURLoggerStandardPluginTest: XCTestCase {
 
         expectation(forNotification: Notification.Name.PURBufferedOutputDidTryWriteChunk.rawValue, object: nil, handler: nil)
 
-        logger.postLog(["aaa": "1"], tag: "failure")
-        logger.postLog(["aaa": "2"], tag: "failure")
-        logger.postLog(["aaa": "3"], tag: "failure")
-        logger.postLog(["aaa": "4"], tag: "failure")
-        logger.postLog(["aaa": "5"], tag: "failure")
+        logger.post(["aaa": "1"], tag: "failure")
+        logger.post(["aaa": "2"], tag: "failure")
+        logger.post(["aaa": "3"], tag: "failure")
+        logger.post(["aaa": "4"], tag: "failure")
+        logger.post(["aaa": "5"], tag: "failure")
 
         waitForExpectations(timeout: 1.0, handler: nil)
         XCTAssertEqual(testLogStorage.description, "[error]")
