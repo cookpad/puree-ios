@@ -8,6 +8,6 @@ class TestLogStorage: CustomStringConvertible {
     }
 
     var description: String {
-        return storage.map{ "[\($0)]" }.joined()
+        return storage.map { "[\($0)]" }.joined()
     }
 }
