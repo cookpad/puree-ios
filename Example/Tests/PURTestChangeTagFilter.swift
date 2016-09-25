@@ -9,7 +9,7 @@ class PURTestChangeTagFilter: PURFilter {
     }
 
     override func logs(object: Any, tag: String, captured: String?) -> [PURLog] {
-        guard let userInfo = object as? [AnyHashable: Any], let suffix = tagSuffix else {
+        guard let userInfo = object as? [String: Any], let suffix = tagSuffix else {
             return []
         }
 

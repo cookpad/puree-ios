@@ -4,7 +4,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface PURLog : NSObject <NSCoding>
 
-- (instancetype)initWithTag:(NSString *)tag date:(NSDate *)date userInfo:(nullable NSDictionary *)userInfo;
+- (instancetype)initWithTag:(NSString *)tag date:(NSDate *)date userInfo:(nullable NSDictionary<NSString *, id> *)userInfo;
 
 @property (nonatomic, readonly) NSString *identifier;
 @property (nonatomic, readonly) NSString *tag;

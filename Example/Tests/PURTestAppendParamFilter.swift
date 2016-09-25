@@ -3,7 +3,7 @@ import Puree
 
 class PURTestAppendParamFilter: PURFilter {
     override func logs(object: Any, tag: String, captured: String?) -> [PURLog] {
-        guard var userInfo = object as? [AnyHashable: Any], let ext = captured else {
+        guard var userInfo = object as? [String: Any], let ext = captured else {
             return []
         }
         userInfo["ext"] = ext

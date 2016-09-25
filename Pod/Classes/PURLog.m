@@ -2,7 +2,7 @@
 
 @implementation PURLog
 
-- (instancetype)initWithTag:(NSString *)tag date:(NSDate *)date userInfo:(NSDictionary *)userInfo
+- (instancetype)initWithTag:(NSString *)tag date:(NSDate *)date userInfo:(nullable NSDictionary<NSString *, id> *)userInfo
 {
     self = [super init];
     _identifier = [NSUUID UUID].UUIDString;
