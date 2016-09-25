@@ -136,13 +136,12 @@ class PURLogStoreTest: XCTestCase {
                 PURLog(tag: "testC.peach", date: Date(), userInfo: nil),
             ], output: outputC, description: "\(i)-C")
         }
-        waitForExpectations(timeout: 3.0, handler: nil)
 
         // write 1 * 1000 logs (1000 logs)
         for i in 1...1000 {
             addTestLog(PURLog(tag: "testC.peach", date: Date(), userInfo: nil), output: outputC, description: "\(i)")
         }
-        waitForExpectations(timeout: 3.0, handler: nil)
+        waitForExpectations(timeout: 5.0, handler: nil)
 
         assertLogStoreLogCount(pattern: "testA.*", output: outputA, expectedCount: 300)
         assertLogStoreLogCount(pattern: "testB.*", output: outputB, expectedCount: 300)
