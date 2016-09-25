@@ -1,11 +1,3 @@
-//
-//  PURLogStore.m
-//  Puree
-//
-//  Created by tomohiro-moro on 10/7/14.
-//  Copyright (c) 2014 Tomohiro Moro. All rights reserved.
-//
-
 #import <YapDatabase/YapDatabase.h>
 #import "PURLogStore.h"
 #import "PURLog.h"

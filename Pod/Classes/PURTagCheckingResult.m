@@ -1,11 +1,3 @@
-//
-//  PURTagCheckingResult.m
-//  Puree
-//
-//  Created by tomohiro-moro on 10/28/14.
-//  Copyright (c) 2014 Tomohiro Moro. All rights reserved.
-//
-
 #import "PURTagCheckingResult.h"
 
 @interface PURTagCheckingResult ()

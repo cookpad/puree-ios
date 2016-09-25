@@ -1,11 +1,3 @@
-//
-//  PURBufferedOutput.m
-//  Puree
-//
-//  Created by tomohiro-moro on 10/14/14.
-//  Copyright (c) 2014 Tomohiro Moro. All rights reserved.
-//
-
 #import "PURBufferedOutput.h"
 #import "PURLogStore.h"
 #import "PURLog.h"

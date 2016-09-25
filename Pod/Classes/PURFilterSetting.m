@@ -1,11 +1,3 @@
-//
-//  PURFilterSetting.m
-//  Puree
-//
-//  Created by tomohiro-moro on 10/24/14.
-//  Copyright (c) 2014 Tomohiro Moro. All rights reserved.
-//
-
 #import "PURFilterSetting.h"
 
 @implementation PURFilterSetting
