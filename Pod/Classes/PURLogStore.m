@@ -120,14 +120,14 @@ static NSString *PURLogKey(PUROutput *output, PURLog *log)
                                 }];
 }
 
-- (void)addLog:(PURLog *)log fromOutput:(PUROutput *)output completion:(nullable void (^)(void))completion
+- (void)addLog:(PURLog *)log fromOutput:(PUROutput *)output completion:(nullable dispatch_block_t)completion
 {
     NSAssert(self.databaseConnection, @"Database connection is not available");
 
     [self addLogs:@[ log ] fromOutput:output completion:completion];
 }
 
-- (void)addLogs:(NSArray<PURLog *> *)logs fromOutput:(PUROutput *)output completion:(nullable void (^)(void))completion
+- (void)addLogs:(NSArray<PURLog *> *)logs fromOutput:(PUROutput *)output completion:(nullable dispatch_block_t)completion
 {
     NSAssert(self.databaseConnection, @"Database connection is not available");
 
@@ -141,7 +141,7 @@ static NSString *PURLogKey(PUROutput *output, PURLog *log)
                                      completionBlock:completion];
 }
 
-- (void)removeLogs:(NSArray<PURLog *> *)logs fromOutput:(PUROutput *)output completion:(nullable void (^)(void))completion
+- (void)removeLogs:(NSArray<PURLog *> *)logs fromOutput:(PUROutput *)output completion:(nullable dispatch_block_t)completion
 {
     NSAssert(self.databaseConnection, @"Database connection is not available");
 
