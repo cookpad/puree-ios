@@ -15,7 +15,7 @@ class PURTestBufferedOutput: PURBufferedOutput {
     override func write(chunk: PURBufferedOutputChunk, completion: @escaping (Bool) -> Void) {
         let logString = chunk.logs.map { log in
             let userInfo = log.userInfo as! [String: String]
-            let record = userInfo.keys.sorted().map { "\($0):\(log.userInfo![$0]!)" }.joined(separator: ",")
+            let record = userInfo.keys.sorted().map { "\($0):\(log.userInfo[$0]!)" }.joined(separator: ",")
 
             return "{\(log.tag)|\(record)}"
         }.joined()
