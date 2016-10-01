@@ -7,7 +7,14 @@ class PURLoggerStandardPluginTest: XCTestCase {
         let logStoreOperationDispatchQueue = DispatchQueue(label: "Puree logger test")
     }
 
-    static var loggerConfiguration: TestLoggerConfiguration {
+    var loggerConfiguration: TestLoggerConfiguration!
+    var logger: PURLogger!
+
+    var testLogStorage: TestLogStorage {
+        return loggerConfiguration.logStorage
+    }
+
+    override func setUp() {
         let configuration = TestLoggerConfiguration()
         let logStoreDBPath = NSTemporaryDirectory() + "/PureeLoggerTest-\(UUID().uuidString).db"
         let logStore = PURLogStore(databasePath: logStoreDBPath)
@@ -27,14 +34,16 @@ class PURLoggerStandardPluginTest: XCTestCase {
             PUROutputSetting(output: PURTestFailureOutput.self, tagPattern: "failure", settings: ["logStorage": logStorage]),
         ]
 
-        return configuration
+        loggerConfiguration = configuration
+        logger = PURLogger(configuration: configuration)
+    }
+
+    override func tearDown() {
+        logger.logStore().clearAll()
+        logger.shutdown()
     }
 
     func testChangeTagFilterPlugin() {
-        let loggerConfiguration = PURLoggerStandardPluginTest.loggerConfiguration
-        let logger = PURLogger(configuration: loggerConfiguration)
-        let testLogStorage = loggerConfiguration.logStorage
-
         XCTAssertEqual(testLogStorage.description, "")
 
         logger.post(["aaa": "123"], tag: "filter.test")
@@ -43,16 +52,9 @@ class PURLoggerStandardPluginTest: XCTestCase {
         logger.post(["eee": "not filtered"], tag: "filter.testXXX")
 
         XCTAssertEqual(testLogStorage.description, "[filter.testXXX|aaa:123][filter.testXXX|bbb:456,ccc:789][filter.testXXX|eee:not filtered]")
-
-        logger.logStore().clearAll()
-        logger.shutdown()
     }
 
     func testAppendParamFilterPlugin() {
-        let loggerConfiguration = PURLoggerStandardPluginTest.loggerConfiguration
-        let logger = PURLogger(configuration: loggerConfiguration)
-        let testLogStorage = loggerConfiguration.logStorage
-
         XCTAssertEqual(testLogStorage.description, "")
 
         logger.post(["aaa": "123"], tag: "filter.append")
@@ -61,16 +63,9 @@ class PURLoggerStandardPluginTest: XCTestCase {
         logger.post(["ccc": "789"], tag: "filter.append.yyy")
 
         XCTAssertEqual(testLogStorage.description, "[filter.append|aaa:123,ext:][filter.append.xxx|bbb:456,ext:xxx][filter.append.yyy|ccc:789,ext:yyy]")
-
-        logger.logStore().clearAll()
-        logger.shutdown()
     }
 
     func testUnbufferedOutputPlugin() {
-        let loggerConfiguration = PURLoggerStandardPluginTest.loggerConfiguration
-        let logger = PURLogger(configuration: loggerConfiguration)
-        let testLogStorage = loggerConfiguration.logStorage
-
         XCTAssertEqual(testLogStorage.description, "")
 
         logger.post(["aaa": "123"], tag: "test.hoge")
@@ -78,16 +73,9 @@ class PURLoggerStandardPluginTest: XCTestCase {
         logger.post(["ddd": "12345"], tag: "debug")
 
         XCTAssertEqual(testLogStorage.description, "[test.hoge|aaa:123][test.fuga|bbb:456,ccc:789]")
-
-        logger.logStore().clearAll()
-        logger.shutdown()
     }
 
     func testBufferedOutputPlugin_writeLog() {
-        let loggerConfiguration = PURLoggerStandardPluginTest.loggerConfiguration
-        let logger = PURLogger(configuration: loggerConfiguration)
-        let testLogStorage = loggerConfiguration.logStorage
-
         expectation(forNotification: Notification.Name.PURBufferedOutputDidStart.rawValue, object: nil, handler: nil)
         waitForExpectations(timeout: 1.0, handler: nil)
 
@@ -118,16 +106,9 @@ class PURLoggerStandardPluginTest: XCTestCase {
         XCTAssertTrue(logStorageContent.contains("{buffered.b|aaa:4}"))
         XCTAssertTrue(logStorageContent.contains("{buffered.a|aaa:5}"))
         XCTAssertFalse(logStorageContent.contains("{buffered.a|aaa:6}"))
-
-        logger.logStore().clearAll()
-        logger.shutdown()
     }
 
     func testBufferedOutputPlugin_resumeStoredLogs() {
-        let loggerConfiguration = PURLoggerStandardPluginTest.loggerConfiguration
-        var logger = PURLogger(configuration: loggerConfiguration)
-        let testLogStorage = loggerConfiguration.logStorage
-
         expectation(forNotification: Notification.Name.PURBufferedOutputDidStart.rawValue, object: nil, handler: nil)
         waitForExpectations(timeout: 1.0, handler: nil)
 
@@ -163,16 +144,9 @@ class PURLoggerStandardPluginTest: XCTestCase {
         XCTAssertFalse(logStorageContent.contains("{buffered.d|aaa:4}"))
         XCTAssertFalse(logStorageContent.contains("{buffered.c|aaa:5}"))
         XCTAssertFalse(logStorageContent.contains("{buffered.c|aaa:6}"))
-
-        logger.logStore().clearAll()
-        logger.shutdown()
     }
 
     func testBufferedOutputPlugin_periodicalFlushing() {
-        let loggerConfiguration = PURLoggerStandardPluginTest.loggerConfiguration
-        let logger = PURLogger(configuration: loggerConfiguration)
-        let testLogStorage = loggerConfiguration.logStorage
-
         expectation(forNotification: Notification.Name.PURBufferedOutputDidStart.rawValue, object: nil, handler: nil)
         waitForExpectations(timeout: 1.0, handler: nil)
 
@@ -193,16 +167,9 @@ class PURLoggerStandardPluginTest: XCTestCase {
         XCTAssertTrue(logStorageContent.contains("{buffered.e|aaa:1}"))
         XCTAssertTrue(logStorageContent.contains("{buffered.e|aaa:2}"))
         XCTAssertTrue(logStorageContent.contains("{buffered.f|aaa:3}"))
-
-        logger.logStore().clearAll()
-        logger.shutdown()
     }
 
     func testBufferedOutputPlugin_retry() {
-        let loggerConfiguration = PURLoggerStandardPluginTest.loggerConfiguration
-        let logger = PURLogger(configuration: loggerConfiguration)
-        let testLogStorage = loggerConfiguration.logStorage
-
         expectation(forNotification: Notification.Name.PURBufferedOutputDidStart.rawValue, object: nil, handler: nil)
         waitForExpectations(timeout: 1.0, handler: nil)
 
@@ -233,8 +200,5 @@ class PURLoggerStandardPluginTest: XCTestCase {
         // scheduled after 8sec
         waitForExpectations(timeout: 9.0, handler: nil)
         XCTAssertEqual(testLogStorage.description, "[error][error][error][error]")
-
-        logger.logStore().clearAll()
-        logger.shutdown()
     }
 }
