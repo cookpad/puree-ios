@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "Puree"
-  s.version          = "1.1.0"
+  s.version          = "2.0.0"
   s.summary          = "A log collector for iOS."
   s.homepage         = "https://github.com/cookpad/puree-ios"
   s.license          = "MIT"
@@ -15,5 +15,5 @@ Pod::Spec.new do |s|
     'Puree' => ['Pod/Assets/*.png']
   }
 
-  s.dependency 'YapDatabase', '~> 2.5.4'
+  s.dependency 'YapDatabase', '~> 2.9.2'
 end

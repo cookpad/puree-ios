@@ -1,26 +1,20 @@
-//
-//  PURFailureOutput.swift
-//  Puree
-//
-//  Created by tomohiro-moro on 12/10/14.
-//  Copyright (c) 2014 Tomohiro Moro. All rights reserved.
-//
-
 import Foundation
 import Puree
 
-class PURTestFailureOutput : PURBufferedOutput {
+class PURTestFailureOutput: PURBufferedOutput {
     var logStorage: TestLogStorage!
 
-    override func configure(settings: [String : AnyObject]) {
-        super.configure(settings)
+    override func configure(settings: [String: Any]) {
+        super.configure(settings: settings)
 
-        self.logStorage = settings["logStorage"] as! TestLogStorage
+        if let logStorage = settings["logStorage"] as? TestLogStorage {
+            self.logStorage = logStorage
+        }
     }
 
-    override func writeChunk(chunk: PURBufferedOutputChunk, completion: (Bool) -> Void) {
-        self.logStorage.addLog("error");
-        print("\(NSDate()): error!(retry debug)")
+    override func write(chunk: PURBufferedOutputChunk, completion: @escaping (Bool) -> Void) {
+        self.logStorage.add(log: "error")
+        print("\(Date()): error!(retry debug)")
         completion(false)
     }
 }

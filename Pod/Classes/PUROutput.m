@@ -1,11 +1,3 @@
-//
-//  PUROutput.m
-//  Puree
-//
-//  Created by tomohiro-moro on 10/10/14.
-//  Copyright (c) 2014 Tomohiro Moro. All rights reserved.
-//
-
 #import "PUROutput.h"
 #import "PURLogger.h"
 

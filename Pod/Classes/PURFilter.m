@@ -1,11 +1,3 @@
-//
-//  PURFilter.m
-//  Puree
-//
-//  Created by tomohiro-moro on 10/24/14.
-//  Copyright (c) 2014 Tomohiro Moro. All rights reserved.
-//
-
 #import "PURFilter.h"
 #import "PURLogger.h"
 #import "PURLog.h"

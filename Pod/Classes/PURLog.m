@@ -1,16 +1,8 @@
-//
-//  PURLog.m
-//  Puree
-//
-//  Created by tomohiro-moro on 10/7/14.
-//  Copyright (c) 2014 Tomohiro Moro. All rights reserved.
-//
-
 #import "PURLog.h"
 
 @implementation PURLog
 
-- (instancetype)initWithTag:(NSString *)tag date:(NSDate *)date userInfo:(NSDictionary *)userInfo
+- (instancetype)initWithTag:(NSString *)tag date:(NSDate *)date userInfo:(nonnull NSDictionary<NSString *,id> *)userInfo
 {
     self = [super init];
     _identifier = [NSUUID UUID].UUIDString;

@@ -1,11 +1,3 @@
-//
-//  PURLogger.m
-//  Puree
-//
-//  Created by tomohiro-moro on 10/7/14.
-//  Copyright (c) 2014 Tomohiro Moro. All rights reserved.
-//
-
 #import "PURLogger.h"
 #import "PURLoggerConfiguration.h"
 #import "PURTagCheckingResult.h"

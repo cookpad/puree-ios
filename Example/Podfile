@@ -1,9 +1,6 @@
 source 'https://github.com/CocoaPods/Specs'
 use_frameworks!
 
-target 'PureeTests', :exclusive => true do
+target 'PureeTests' do
   pod "Puree", :path => "../"
-
-  pod 'Quick', '~> 0.9.1'
-  pod 'Nimble', '~> 3.1.0'
 end

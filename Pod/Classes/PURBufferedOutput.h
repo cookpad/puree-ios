@@ -1,11 +1,3 @@
-//
-//  PURBufferedOutput.h
-//  Puree
-//
-//  Created by tomohiro-moro on 10/14/14.
-//  Copyright (c) 2014 Tomohiro Moro. All rights reserved.
-//
-
 #import <Foundation/Foundation.h>
 #import "PUROutput.h"
 
@@ -14,6 +6,13 @@ NS_ASSUME_NONNULL_BEGIN
 extern NSString * const PURBufferedOutputSettingsLogLimitKey;
 extern NSString * const PURBufferedOutputSettingsFlushIntervalKey;
 extern NSString * const PURBufferedOutputSettingsMaxRetryCountKey;
+
+extern NSString * const PURBufferedOutputDidStartNotification;
+extern NSString * const PURBufferedOutputDidResumeNotification;
+extern NSString * const PURBufferedOutputDidFlushNotification;
+extern NSString * const PURBufferedOutputDidTryWriteChunkNotification;
+extern NSString * const PURBufferedOutputDidSuccessWriteChunkNotification;
+extern NSString * const PURBufferedOutputDidRetryWriteChunkNotification;
 
 @interface PURBufferedOutputChunk : NSObject
 
@@ -26,7 +25,7 @@ extern NSString * const PURBufferedOutputSettingsMaxRetryCountKey;
 
 @interface PURBufferedOutput : PUROutput
 
-- (void)writeChunk:(PURBufferedOutputChunk *)chunk completion:(void (^)(BOOL success))completion;
+- (void)writeChunk:(PURBufferedOutputChunk *)chunk completion:(void (^)(BOOL success))completion NS_SWIFT_NAME(write(chunk:completion:));
 - (void)tick;
 
 @property (nonatomic, readonly) NSUInteger logLimit;
