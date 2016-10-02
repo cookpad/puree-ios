@@ -24,10 +24,10 @@ class PURLogStoreTest: XCTestCase {
         logStore.clearAll()
     }
 
-    func assertLogStoreLogCount(pattern: String, output: PUROutput, expectedCount: Int, line: Int = #line) {
+    func assertLogCount(of output: PUROutput, expectedCount: Int, line: Int = #line) {
         let countExpectation = expectation(description: "log count")
         var count = -1
-        logStore.retrieveLogs(forPattern: pattern, output:output) { logs in
+        logStore.retrieveLogs(for: output) { logs in
             count = logs.count
             countExpectation.fulfill()
         }
@@ -37,16 +37,17 @@ class PURLogStoreTest: XCTestCase {
 
     func addTestLog(_ log: PURLog, output: PUROutput, description: String) {
         let addExpectation = expectation(description: description)
-        logStore.add(log, from: output) { addExpectation.fulfill() }
+        logStore.add(log, for: output) { addExpectation.fulfill() }
     }
 
     func addTestLogs(_ logs: [PURLog], output: PUROutput, description: String) {
         let addExpectation = expectation(description: description)
-        logStore.add(logs, from: output) { addExpectation.fulfill() }
+        logStore.add(logs, for: output) { addExpectation.fulfill() }
     }
 
     func testAddLog() {
-        assertLogStoreLogCount(pattern: "test.*", output: outputA, expectedCount: 0)
+        assertLogCount(of: outputA, expectedCount: 0)
+        assertLogCount(of: outputB, expectedCount: 0)
 
         addTestLog(PURLog(tag: "test.apple", date: Date(), userInfo: [:]), output: outputA, description: "add test log 1")
         addTestLog(PURLog(tag: "test.apple", date: Date(), userInfo: [:]), output: outputA, description: "add test log 2")
@@ -56,11 +57,13 @@ class PURLogStoreTest: XCTestCase {
 
         waitForExpectations(timeout: 1.0, handler: nil)
 
-        assertLogStoreLogCount(pattern: "test.*", output: outputA, expectedCount: 4)
+        assertLogCount(of: outputA, expectedCount: 4)
+        assertLogCount(of: outputB, expectedCount: 1)
     }
 
     func testAddLogs() {
-        assertLogStoreLogCount(pattern: "test.*", output: outputA, expectedCount: 0)
+        assertLogCount(of: outputA, expectedCount: 0)
+        assertLogCount(of: outputB, expectedCount: 0)
 
         addTestLogs([
             PURLog(tag: "test.apple", date: Date(), userInfo: [:]),
@@ -77,7 +80,8 @@ class PURLogStoreTest: XCTestCase {
 
         waitForExpectations(timeout: 1.0, handler: nil)
 
-        assertLogStoreLogCount(pattern: "test.*", output: outputA, expectedCount: 5)
+        assertLogCount(of: outputA, expectedCount: 5)
+        assertLogCount(of: outputB, expectedCount: 2)
     }
 
     func testRemoveLogs() {
@@ -101,19 +105,23 @@ class PURLogStoreTest: XCTestCase {
 
         waitForExpectations(timeout: 1.0, handler: nil)
 
-        assertLogStoreLogCount(pattern: "test.*", output: outputA, expectedCount: 5)
-        assertLogStoreLogCount(pattern: "test.*", output: outputB, expectedCount: 2)
+        assertLogCount(of: outputA, expectedCount: 5)
+        assertLogCount(of: outputB, expectedCount: 2)
 
         let removeExpectation = expectation(description: "remove logs")
-        logStore.remove(firstChunk, from: outputA) { removeExpectation.fulfill() }
+        logStore.remove(firstChunk, for: outputA) { removeExpectation.fulfill() }
 
         waitForExpectations(timeout: 1.0, handler: nil)
 
-        assertLogStoreLogCount(pattern: "test.*", output: outputA, expectedCount: 3)
-        assertLogStoreLogCount(pattern: "test.*", output: outputB, expectedCount: 2)
+        assertLogCount(of: outputA, expectedCount: 3)
+        assertLogCount(of: outputB, expectedCount: 2)
     }
 
     func testStressTest() {
+        assertLogCount(of: outputA, expectedCount: 0)
+        assertLogCount(of: outputB, expectedCount: 0)
+        assertLogCount(of: outputC, expectedCount: 0)
+
         // write (3 + 3 + 4) * 100 logs (1000 logs)
         for i in 1...100 {
             addTestLogs([
@@ -142,8 +150,8 @@ class PURLogStoreTest: XCTestCase {
         }
         waitForExpectations(timeout: 8.0, handler: nil)
 
-        assertLogStoreLogCount(pattern: "testA.*", output: outputA, expectedCount: 300)
-        assertLogStoreLogCount(pattern: "testB.*", output: outputB, expectedCount: 300)
-        assertLogStoreLogCount(pattern: "testC.*", output: outputC, expectedCount: 1400)
+        assertLogCount(of: outputA, expectedCount: 300)
+        assertLogCount(of: outputB, expectedCount: 300)
+        assertLogCount(of: outputC, expectedCount: 1400)
     }
 }
