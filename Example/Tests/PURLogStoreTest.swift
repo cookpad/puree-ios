@@ -1,4 +1,3 @@
-import Puree
 import XCTest
 
 class PURLogStoreTest: XCTestCase {

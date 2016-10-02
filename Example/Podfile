@@ -1,5 +1,4 @@
 source 'https://github.com/CocoaPods/Specs'
-use_frameworks!
 
 target 'PureeTests' do
   pod "Puree", :path => "../"
