@@ -6,7 +6,7 @@ before_install:
   - pod repo update --silent
 script:
   - set -o pipefail
+  - pod lib lint --allow-warnings
   - pushd Example
   - pod install
-  - pod lib lint --allow-warnings
   - xcodebuild test -workspace Puree.xcworkspace -scheme PureeTests -destination 'platform=iOS Simulator,name=iPhone 6' | xcpretty -c
