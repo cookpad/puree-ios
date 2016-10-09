@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic) NSString *databasePath;
 @property (nonatomic) YapDatabaseConnection *databaseConnection;
-@property (nonatomic) dispatch_queue_t databaseReadWriteCompletionQueue;
+@property (nonatomic, nullable) dispatch_queue_t databaseReadWriteCompletionQueue;
 
 @end
 
@@ -86,7 +86,7 @@ static NSString *PURLogKey(PUROutput *output, PURLog *log)
     if (self.databaseConnection.database != database) {
         self.databaseConnection = [database newConnection];
     }
-    return self.databaseConnection;
+    return YES;
 }
 
 + (NSString *)defaultDatabasePath
