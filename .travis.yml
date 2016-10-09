@@ -4,6 +4,6 @@ xcode_workspace: Example/Puree.xcworkspace
 xcode_scheme: PureeTests
 before_install:
   - gem update cocoapods --pre # Install 1.1.0.rc.2
-  - pod setup
-  - pod repo update
+  - pod setup --silent > /dev/null
+  - pod repo update --silent
 podfile: Example/Podfile
