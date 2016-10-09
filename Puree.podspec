@@ -11,9 +11,6 @@ Pod::Spec.new do |s|
   s.requires_arc = true
 
   s.source_files = 'Pod/Classes'
-  s.resource_bundles = {
-    'Puree' => ['Pod/Assets/*.png']
-  }
 
   s.dependency 'YapDatabase', '~> 2.9.2'
 end

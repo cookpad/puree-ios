@@ -1,0 +1,12 @@
+language: objective-c
+osx_image: xcode8
+before_install:
+  - gem update cocoapods --pre # Install 1.1.0.rc.2
+  - pod setup --silent > /dev/null
+  - pod repo update --silent
+script:
+  - set -o pipefail
+  - pod lib lint --allow-warnings
+  - pushd Example
+  - pod install
+  - xcodebuild test -workspace Puree.xcworkspace -scheme PureeTests -destination 'platform=iOS Simulator,name=iPhone 6' | xcpretty -c
