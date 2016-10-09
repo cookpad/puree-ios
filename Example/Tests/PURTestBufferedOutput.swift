@@ -1,5 +1,4 @@
 import Foundation
-import Puree
 
 class PURTestBufferedOutput: PURBufferedOutput {
     var logStorage: TestLogStorage!

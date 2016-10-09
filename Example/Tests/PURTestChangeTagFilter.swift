@@ -1,5 +1,4 @@
 import Foundation
-import Puree
 
 class PURTestChangeTagFilter: PURFilter {
     var tagSuffix: String?

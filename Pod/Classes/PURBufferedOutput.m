@@ -130,15 +130,14 @@ NSUInteger PURBufferedOutputDefaultMaxRetryCount = 3;
 - (void)retrieveLogs:(PURLogStoreRetrieveCompletionBlock)completion
 {
     [self.buffer removeAllObjects];
-    [self.logStore retrieveLogsForPattern:self.tagPattern
-                                   output:self
-                               completion:completion];
+    [self.logStore retrieveLogsForOutput:self
+                              completion:completion];
 }
 
 - (void)emitLog:(PURLog *)log
 {
     [self.buffer addObject:log];
-    [self.logStore addLog:log fromOutput:self completion:^{
+    [self.logStore addLog:log forOutput:self completion:^{
         if ([self.buffer count] >= self.logLimit) {
             [self flush];
         }
@@ -171,7 +170,7 @@ NSUInteger PURBufferedOutputDefaultMaxRetryCount = 3;
               [[NSNotificationCenter defaultCenter] postNotificationName:PURBufferedOutputDidTryWriteChunkNotification object:self];
 
               if (success) {
-                  [self.logStore removeLogs:chunk.logs fromOutput:self completion:nil];
+                  [self.logStore removeLogs:chunk.logs forOutput:self completion:nil];
 
                   [[NSNotificationCenter defaultCenter] postNotificationName:PURBufferedOutputDidSuccessWriteChunkNotification object:self];
                   return;

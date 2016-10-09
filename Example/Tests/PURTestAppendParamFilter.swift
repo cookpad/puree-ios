@@ -1,5 +1,4 @@
 import Foundation
-import Puree
 
 class PURTestAppendParamFilter: PURFilter {
     override func logs(object: Any, tag: String, captured: String?) -> [PURLog] {
