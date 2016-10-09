@@ -2,5 +2,6 @@ language: objective-c
 osx_image: xcode8
 xcode_workspace: Example/Puree.xcworkspace
 xcode_scheme: PureeTests
-gemfile: Example/Gemfile
+before_install:
+  - gem update cocoapods --pre # Install 1.1.0.rc.2
 podfile: Example/Podfile
