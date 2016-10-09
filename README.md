@@ -4,6 +4,7 @@ Puree
 [![Version](https://img.shields.io/cocoapods/v/Puree.svg?style=flat)](http://cocoadocs.org/docsets/Puree)
 [![License](https://img.shields.io/cocoapods/l/Puree.svg?style=flat)](http://cocoadocs.org/docsets/Puree)
 [![Platform](https://img.shields.io/cocoapods/p/Puree.svg?style=flat)](http://cocoadocs.org/docsets/Puree)
+[![Travis](https://img.shields.io/travis/cookpad/puree-ios.svg?maxAge=2592000)]()
 
 ## Description
 
@@ -25,7 +26,7 @@ Puree helps you unify your logging infrastructure.
 ```swift
 // Swift
 
-let configuration = PURLoggerConfiguration.defaultConfiguration()
+let configuration = PURLoggerConfiguration.default()
 configuration.filterSettings = [
     PURFilterSetting(filter: ActivityFilter.self, tagPattern: "activity.**"),
     // filter settings ...
@@ -37,7 +38,7 @@ configuration.outputSettings = [
     // output settings ...
 ]
 
-logger = PURLogger(configuration: configuration)
+let logger = PURLogger(configuration: configuration)
 ```
 
 ```objective-c
@@ -81,7 +82,7 @@ Post log object(anyObject) in an arbitrary timing.
 ```swift
 // Swift
 
-logger.postLog(["recipe_id": "123"], tag: "pv.recipe_detail")
+logger.post(["recipe_id": "123"], tag: "pv.recipe_detail")
 ```
 
 ```objective-c
