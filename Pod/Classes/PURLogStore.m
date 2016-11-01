@@ -15,7 +15,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic) NSString *databasePath;
 @property (nonatomic) YapDatabaseConnection *databaseConnection;
-@property (nonatomic, nullable) dispatch_queue_t databaseReadWriteCompletionQueue;
 
 @end
 
@@ -51,13 +50,8 @@ static NSString *PURLogKey(PUROutput *output, PURLog *log)
     self = [super init];
     if (self) {
         _databasePath = databasePath;
-        _databaseReadWriteCompletionQueue = dispatch_queue_create("PureeLogStoreReadWriteCompletion", NULL);
     }
     return self;
-}
-
-- (void)dealloc {
-    self.databaseReadWriteCompletionQueue = nil;
 }
 
 - (BOOL)prepare
@@ -114,7 +108,6 @@ static NSString *PURLogKey(PUROutput *output, PURLog *log)
                                         return [key hasPrefix:keyPrefix];
                                     }];
     }
-                                completionQueue:self.databaseReadWriteCompletionQueue
                                 completionBlock:^{
                                     completion(logs);
                                 }];
@@ -137,7 +130,6 @@ static NSString *PURLogKey(PUROutput *output, PURLog *log)
             [transaction setObject:log forKey:PURLogKey(output, log) inCollection:collectionName];
         }
     }
-                                     completionQueue:self.databaseReadWriteCompletionQueue
                                      completionBlock:completion];
 }
 
@@ -151,7 +143,6 @@ static NSString *PURLogKey(PUROutput *output, PURLog *log)
             [transaction removeObjectForKey:PURLogKey(output, log) inCollection:collectionName];
         }
     }
-                                     completionQueue:self.databaseReadWriteCompletionQueue
                                      completionBlock:completion];
 }
 
