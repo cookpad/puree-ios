@@ -7,7 +7,7 @@ PODS:
     - CocoaLumberjack/Core
   - CocoaLumberjack/Extensions (2.4.0):
     - CocoaLumberjack/Default
-  - Puree (2.0.0):
+  - Puree (2.0.1):
     - YapDatabase (~> 2.9.2)
   - Reachability (3.2)
   - YapDatabase (2.9.2):
@@ -70,7 +70,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   CocoaLumberjack: aa9dcab71bdf9eaf2a63bbd9ddc87863efe45457
-  Puree: 2f256eab6304224915fcb15c8a3515b619089cd8
+  Puree: 33d528d639daddf0cee74ec6125f96072c9251c3
   Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
   YapDatabase: b1e43555a34a5298e23a045be96817a5ef0da58f
 
