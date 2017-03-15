@@ -37,7 +37,7 @@
 		6003F58F195388D20070C39A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		6003F591195388D20070C39A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		6003F5AF195388D20070C39A /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		6412CE7C1B65D0BBA34A4332 /* Puree.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = Puree.podspec; path = ../Puree.podspec; sourceTree = "<group>"; };
+		6412CE7C1B65D0BBA34A4332 /* KurioPuree.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = KurioPuree.podspec; path = ../KurioPuree.podspec; sourceTree = "<group>"; };
 		A74A5DDA68461D97C2E89F24 /* Pods-PureeTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PureeTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PureeTests/Pods-PureeTests.debug.xcconfig"; sourceTree = "<group>"; };
 		D7F43655475AA82E9B4A327D /* Pods-PureeTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PureeTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PureeTests/Pods-PureeTests.release.xcconfig"; sourceTree = "<group>"; };
 		F114EB7406FEADE718D7A6E5 /* libPods-PureeTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PureeTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -124,7 +124,7 @@
 		60FF7A9C1954A5C5007DD14C /* Podspec Metadata */ = {
 			isa = PBXGroup;
 			children = (
-				6412CE7C1B65D0BBA34A4332 /* Puree.podspec */,
+				6412CE7C1B65D0BBA34A4332 /* KurioPuree.podspec */,
 				2D02199567B505DD66CAAACC /* README.md */,
 			);
 			name = "Podspec Metadata";
