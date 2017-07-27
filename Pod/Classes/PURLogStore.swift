@@ -58,13 +58,16 @@ class PURLogStore {
         }
         
         var database: YapDatabase? = __databases[(databasePath?.absoluteString)!]
+        
         if database == nil {
             database = YapDatabase(path: (databasePath?.absoluteString)!)
             __databases[(databasePath?.absoluteString)!] = database
         }
+        
         if databaseConnection?.database != database {
             databaseConnection = database?.newConnection()
         }
+        
         return true
     }
     

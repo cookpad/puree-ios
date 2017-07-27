@@ -14,11 +14,11 @@ class PUROutput {
     private(set) var logger: PURLogger?
     private(set) var logStore: PURLogStore?
     
-    init(logger: PURLogger, tagPattern: String) {
-        identifier = UUID().uuidString
+    init(logger: PURLogger,
+         tagPattern: String) {
+        self.identifier = UUID().uuidString
         self.tagPattern = tagPattern
         self.logger = logger
-        
     }
     
     func getLogStore() -> PURLogStore? {

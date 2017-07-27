@@ -16,7 +16,7 @@
 
 - (PURLogStore *)logStore
 {
-    return self.logger.logStore;
+    return [_logger logStore];
 }
 
 - (void)configure:(NSDictionary<NSString *, id> *)settings
