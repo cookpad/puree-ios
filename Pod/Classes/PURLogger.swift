@@ -118,7 +118,7 @@ class PURLogger {
                 let filter = PURFilter(logger: self, tagPattern: setting.tagPattern)
                 
                 if let pluginSettings = setting.settings {
-                    filter.configure(settings: pluginSettings)
+                    filter.configure(pluginSettings)
                     filters[filter.identifier] = filter
                     filterReactionTagPatterns[filter.identifier] = setting.tagPattern
                 }
@@ -177,7 +177,7 @@ class PURLogger {
             let result: PURTagCheckingResult? = PURLogger.matchesTag(tag, pattern: pattern!)
             
             let filter: PURFilter? = filters[key]
-            if let filteredLogs = filter?.logs(object: object, tag: tag, captured: result?.capturedString) {
+            if let filteredLogs = filter?.logs(withObject: object, tag: tag, captured: (result?.capturedString)!) {
                 for log in filteredLogs {
                     logs.append(log)
                 }
@@ -185,7 +185,7 @@ class PURLogger {
         }
         
         if logs.count == 0 {
-            return defaultFilter!.logs(object: object, tag: tag, captured: nil)
+            return defaultFilter!.logs(withObject: object, tag: tag, captured: nil)
         }
         
         return logs
