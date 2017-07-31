@@ -1,5 +1,5 @@
 //
-//  PURLogger.swift
+//  Logger.swift
 //  Pods
 //
 //  Created by admin on 7/27/17.
@@ -8,19 +8,19 @@
 
 import Foundation
 
-class PURLogger {
+public class Logger {
     
-    var configuration: PURLoggerConfiguration?
-    var defaultFilter: PURFilter?
-    var filters = [String: PURFilter]()
+    var configuration: LoggerConfiguration?
+    var defaultFilter: Filter?
+    var filters = [String: Filter]()
     var filterReactionTagPatterns = [String: String]()
-    var outputs = [String: PUROutput]()
+    var outputs = [String: Output]()
     var outputReactionTagPatterns = [String: String]()
     
-    class func matchesTag(_ tag: String, pattern: String) -> PURTagCheckingResult {
+    public class func matchesTag(_ tag: String, pattern: String) -> TagCheckingResult {
         
         if (tag == pattern) {
-            return PURTagCheckingResult.success()
+            return TagCheckingResult.success()
         }
         
         let elementsSeparator: String = "."
@@ -35,7 +35,7 @@ class PURLogger {
             
             for (idx, val) in patternElements.enumerated() {
                 
-                var tagElement = tagElements[idx]
+                let tagElement = tagElements[idx]
                 
                 if !(tagElement == val) {
                     matched = false
@@ -44,15 +44,15 @@ class PURLogger {
             }
             
             if matched {
-                var location: Int = patternElements.count - 1
-                var capturedLength: Int = tagElements.count - location
+                let location: Int = patternElements.count - 1
+                let capturedLength: Int = tagElements.count - location
                 var capturedString: String = ""
                 
                 if capturedLength > 0 {
                     capturedString = tagElements[Range(uncheckedBounds: (location, capturedLength))].joined(separator: elementsSeparator)
                 }
                 
-                return PURTagCheckingResult.successResult(withCapturedString: capturedString)
+                return TagCheckingResult.successResult(withCapturedString: capturedString)
             }
             
         } else if (lastPatternElement == wildcard) {
@@ -60,7 +60,7 @@ class PURLogger {
                 var matched: Bool = true
                 
                 for (idx, val) in patternElements.enumerated() {
-                    var tagElement: String = tagElements[idx]
+                    let tagElement: String = tagElements[idx]
                     if !(tagElement == val) {
                         matched = false
                         break
@@ -68,15 +68,15 @@ class PURLogger {
                 }
                 
                 if matched {
-                    return PURTagCheckingResult.successResult(withCapturedString: tagElements.last)
+                    return TagCheckingResult.successResult(withCapturedString: tagElements.last)
                 }
             }
         }
         
-        return PURTagCheckingResult.failure()
+        return TagCheckingResult.failure()
     }
     
-    init(configuration: PURLoggerConfiguration) {
+    public init(configuration: LoggerConfiguration) {
         self.configuration = configuration
         configure()
         startPlugins()
@@ -86,7 +86,7 @@ class PURLogger {
         shutdown()
     }
     
-    func logStore() -> PURLogStore? {
+    func logStore() -> LogStore? {
         return configuration?.logStore
     }
     
@@ -94,9 +94,9 @@ class PURLogger {
         return Date()
     }
     
-    func configure() {
-        let logStore: PURLogStore? = configuration?.logStore
-        logStore?.prepare()
+    public func configure() {
+        let logStore: LogStore? = configuration?.logStore
+        let _ = logStore?.prepare()
         
         configureFilterPlugins()
         configureOutputPlugins()
@@ -107,15 +107,15 @@ class PURLogger {
     }
     
     func configureFilterPlugins() {
-        defaultFilter = PURFilter(logger: self, tagPattern: nil)
+        defaultFilter = Filter(logger: self, tagPattern: nil)
         
-        var filters = [String: PURFilter]()
+        var filters = [String: Filter]()
         var filterReactionTagPatterns = [String: String]()
         
         if let configuration = configuration {
             for setting in configuration.filterSettings {
                 
-                let filter = PURFilter(logger: self, tagPattern: setting.tagPattern)
+                let filter = Filter(logger: self, tagPattern: setting.tagPattern)
                 
                 if let pluginSettings = setting.settings {
                     filter.configure(pluginSettings)
@@ -130,13 +130,13 @@ class PURLogger {
     }
     
     func configureOutputPlugins() {
-        var outputs = [String: PUROutput]()
+        var outputs = [String: Output]()
         var outputReactionTagPatterns = [String: String]()
         
         if let configuration = configuration {
             for setting in configuration.outputSettings {
                 
-                let output = PUROutput(logger: self, tagPattern: setting.tagPattern)
+                let output = Output(logger: self, tagPattern: setting.tagPattern)
                 
                 if let pluginSettings = setting.settings {
                     output.configure(pluginSettings)
@@ -151,32 +151,32 @@ class PURLogger {
     }
     
     func startPlugins() {
-        for (id, output) in outputs.enumerated() {
+        for (_, output) in outputs.enumerated() {
             output.value.start()
         }
     }
     
     @objc func applicationDidEnterBackground(_ notification: Notification) {
-        for (id, output) in outputs.enumerated() {
+        for (_, output) in outputs.enumerated() {
             output.value.suspend()
         }
     }
     
     @objc func applicationWillEnterForeground(_ notification: Notification) {
-        for (id, output) in outputs.enumerated() {
+        for (_, output) in outputs.enumerated() {
             output.value.resume()
         }
     }
     
-    func filteredLogs(withObject object: Any, tag: String) -> [PURLog] {
-        var logs = [PURLog]()
+    func filteredLogs(withObject object: Any, tag: String) -> [Log] {
+        var logs = [Log]()
         
-        for (key, value) in filterReactionTagPatterns {
+        for (key, _) in filterReactionTagPatterns {
             
             let pattern = filterReactionTagPatterns[key]
-            let result: PURTagCheckingResult? = PURLogger.matchesTag(tag, pattern: pattern!)
+            let result: TagCheckingResult? = Logger.matchesTag(tag, pattern: pattern!)
             
-            let filter: PURFilter? = filters[key]
+            let filter: Filter? = filters[key]
             if let filteredLogs = filter?.logs(withObject: object, tag: tag, captured: (result?.capturedString)!) {
                 for log in filteredLogs {
                     logs.append(log)
@@ -191,10 +191,10 @@ class PURLogger {
         return logs
     }
     
-    func postLog(_ object: Any, tag sourceTag: String) {
+    public func post(_ object: Any, tag sourceTag: String) {
         for log in filteredLogs(withObject: object, tag: sourceTag) {
-            for (key, value) in outputReactionTagPatterns.enumerated() {
-                if PURLogger.matchesTag(log.tag, pattern: value.value).isMatched {
+            for (_, value) in outputReactionTagPatterns.enumerated() {
+                if Logger.matchesTag(log.tag, pattern: value.value).isMatched {
                     let output = self.outputs[value.key]
                     output?.emitLog(log)
                 }

@@ -1,5 +1,5 @@
 //
-//  PUROutputSetting.swift
+//  OutputSetting.swift
 //  Pods
 //
 //  Created by admin on 7/27/17.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-class PUROutputSetting {
+public class OutputSetting {
     private(set) var outputClass: Any?
     private(set) var tagPattern: String = ""
     private(set) var settings: [String: Any]?
@@ -20,7 +20,7 @@ class PUROutputSetting {
                   settings: nil)
     }
     
-    init(output outputClass: Any,
+    public init(output outputClass: Any,
          tagPattern: String,
          settings: [String: Any]?) {
         self.outputClass = outputClass

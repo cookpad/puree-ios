@@ -1,5 +1,5 @@
 //
-//  PURLogStore.swift
+//  LogStore.swift
 //  Pods
 //
 //  Created by admin on 7/27/17.
@@ -10,27 +10,27 @@
 import Foundation
 import YapDatabase
 
-private let LogDatabaseDirectory: String = "com.cookpad.PureeData.default"
+private let LogDatabaseDirectory: String = "com.cookpad.eeData.default"
 private let LogDatabaseFileName: String = "logs.db"
 private let LogDataCollectionNamePrefix: String = "log_"
 private var __databases = [String: YapDatabase]()
 
-typealias PURLogStoreRetrieveCompletionBlock = (_ logs: [PURLog]) -> Void
+typealias LogStoreRetrieveCompletionBlock = (_ logs: [Log]) -> Void
 
-private func PURLogStoreCollectionNameForPattern(pattern: String) -> String {
+private func LogStoreCollectionNameForPattern(pattern: String) -> String {
     return LogDataCollectionNamePrefix + (pattern)
 }
 
-private func PURLogKey(output: PUROutput, log: PURLog) -> String {
+private func LogKey(output: Output, log: Log) -> String {
     return String(describing: output.self) + ("_") + (log.identifier)
 }
 
-class PURLogStore {
+public class LogStore {
     
     var databasePath: URL?
     var databaseConnection: YapDatabaseConnection?
     
-    class func initialize() {
+    public class func initialize() {
         __databases = [String: YapDatabase]()
     }
     
@@ -45,16 +45,15 @@ class PURLogStore {
     func prepare() -> Bool {
         let fileManager = FileManager.default
         let databaseDirectory: String = (databasePath?.deletingLastPathComponent().lastPathComponent)!
-        var isDirectory: Bool = false
         
-        if !fileManager.fileExists(atPath: databaseDirectory, isDirectory: isDirectory as! UnsafeMutablePointer<ObjCBool>) {
-            var error: Error? = nil
+        if !fileManager.fileExists(atPath: databaseDirectory) {
+            let error: Error? = nil
+            
             try? fileManager.createDirectory(atPath: databaseDirectory, withIntermediateDirectories: true, attributes: nil)
+            
             if error != nil {
                 return false
             }
-        } else if !isDirectory {
-            return false
         }
         
         var database: YapDatabase? = __databases[(databasePath?.absoluteString)!]
@@ -80,17 +79,17 @@ class PURLogStore {
         return databasePath
     }
     
-    func retrieveLogs(for output: PUROutput, completion: @escaping PURLogStoreRetrieveCompletionBlock) {
+    func retrieveLogs(for output: Output, completion: @escaping LogStoreRetrieveCompletionBlock) {
         assert((databaseConnection == nil), "Database connection is not available")
         
-        var logs: [PURLog] = [PURLog]()
+        var logs: [Log] = [Log]()
         
         databaseConnection?.asyncRead({(_ transaction: YapDatabaseReadTransaction) -> Void in
             
             let keyPrefix: String = String(describing: output.self) + ("_")
             
-            transaction.enumerateRows(inCollection: PURLogStoreCollectionNameForPattern(pattern: output.tagPattern), using: { (key, log, metadata, stop) in
-                logs.append(log as! PURLog)
+            transaction.enumerateRows(inCollection: LogStoreCollectionNameForPattern(pattern: output.tagPattern), using: { (key, log, metadata, stop) in
+                logs.append(log as! Log)
             }, withFilter: { (key) -> Bool in
                 return key.hasPrefix(keyPrefix)
             })
@@ -100,27 +99,27 @@ class PURLogStore {
         })
     }
     
-    func add(_ log: PURLog, for output: PUROutput, completion: (() -> Void)?) {
+    func add(_ log: Log, for output: Output, completion: (() -> Void)?) {
         assert((databaseConnection == nil), "Database connection is not available")
         addLogs([log], for: output, completion: completion)
     }
     
-    func addLogs(_ logs: [PURLog], for output: PUROutput, completion: (() -> Void)?) {
+    func addLogs(_ logs: [Log], for output: Output, completion: (() -> Void)?) {
         assert((databaseConnection == nil), "Database connection is not available")
         databaseConnection?.asyncReadWrite({(_ transaction: YapDatabaseReadWriteTransaction) -> Void in
-            let collectionName: String = PURLogStoreCollectionNameForPattern(pattern: output.tagPattern)
-            for log: PURLog in logs {
-                transaction.setObject(log, forKey: PURLogKey(output: output, log: log), inCollection: collectionName)
+            let collectionName: String = LogStoreCollectionNameForPattern(pattern: output.tagPattern)
+            for log: Log in logs {
+                transaction.setObject(log, forKey: LogKey(output: output, log: log), inCollection: collectionName)
             }
         }, completionBlock: completion)
     }
     
-    func removeLogs(_ logs: [PURLog], for output: PUROutput, completion: (() -> Void)?) {
+    func removeLogs(_ logs: [Log], for output: Output, completion: (() -> Void)?) {
         assert((databaseConnection == nil), "Database connection is not available")
         databaseConnection?.asyncReadWrite({(_ transaction: YapDatabaseReadWriteTransaction) -> Void in
-            let collectionName: String = PURLogStoreCollectionNameForPattern(pattern: output.tagPattern)
-            for log: PURLog in logs {
-                transaction.removeObject(forKey: PURLogKey(output: output, log: log), inCollection: collectionName)
+            let collectionName: String = LogStoreCollectionNameForPattern(pattern: output.tagPattern)
+            for log: Log in logs {
+                transaction.removeObject(forKey: LogKey(output: output, log: log), inCollection: collectionName)
             }
         }, completionBlock: completion)
     }
