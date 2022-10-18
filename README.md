@@ -1,3 +1,6 @@
+# ⚠️ Obsoleted
+"Puree" is no longer supported. Check out new version "Puree-Swift" https://github.com/cookpad/Puree-Swift 
+
 Puree
 ========
 
